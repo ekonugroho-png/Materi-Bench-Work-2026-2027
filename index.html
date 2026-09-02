@@ -547,7 +547,23 @@ input{font-family:inherit;outline:none}
 .doc-info p{font-size:12px;color:var(--text-muted)}
 
 /* ========== 28. ALAT UKUR CARDS ========== */
-.tool-card{padding:20px}
+.tool-card { display: flex; flex-direction: column; height: 100%; padding: 20px; }
+.tool-image {
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: #ffffff; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tool-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+}
 .tool-card .tool-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .tool-card .tool-icon{
   width:40px;height:40px;border-radius:8px;
@@ -1180,7 +1196,7 @@ input{font-family:inherit;outline:none}
 
 <script>
 /* ================================================================
-   DATA — Seluruh konten dari materi PPT
+   DATA — Seluruh konten dari materi PPT (DIURUTKAN SESUAI GAMBAR)
    ================================================================ */
 const NAV_ITEMS = [
   {id:'home',icon:'fa-solid fa-house',label:'Home'},
@@ -1261,17 +1277,22 @@ const TARGET_BELAJAR = [
 ];
 
 const ALAT_UKUR = [
-  {name:'Hair Line / Knife Straight Edge',desc:'Alat ukur garis lurus dengan ketajaman pisau untuk mengecek kelistrikan permukaan.',icon:'fa-solid fa-ruler',simulator:null},
+  {name:'Hair Line / Knife Straight Edge',desc:'Alat ukur garis lurus dengan ketajaman pisau untuk mengecek kelistrikan permukaan.',icon:'fa-solid fa-ruler',simulator:null, image:'images/Hair Line.jpg'},
   {name:'Square Line / Square Straight Edge',desc:'Alat ukur siku untuk mengecek kerataan dan kesikuan bidang.',icon:'fa-solid fa-ruler-combined',simulator:null},
-  {name:'Dial Caliper',desc:'Alat ukur panjang dengan dial pointer untuk pembacaan yang lebih mudah.',icon:'fa-solid fa-caliper',simulator:'https://www.stefanelli.eng.br/en/virtual-dial-caliper-hundredth-millimeter-simulator/',simLabel:'Buka Simulator Dial Caliper'},
-  {name:'Vernier Caliper',desc:'Alat ukur panjang dengan skala vernier untuk ketelitian hingga 0.02 mm.',icon:'fa-solid fa-ruler-horizontal',simulator:'https://www.stefanelli.eng.br/en/virtual-vernier-caliper-simulator-02-millimeter/',simLabel:'Buka Simulator Vernier Caliper'},
+  {name:'Dial Caliper',desc:'Alat ukur panjang dengan dial pointer untuk pembacaan yang lebih mudah.',icon:'fa-solid fa-caliper',simulator:'https://www.stefanelli.eng.br/en/virtual-dial-caliper-hundredth-millimeter-simulator/',simLabel:'Buka Simulator Dial Caliper', image:'images/Dial Caliper.jpg'},
+  {name:'Vernier Caliper',desc:'Alat ukur panjang dengan skala vernier untuk ketelitian hingga 0.02 mm.',icon:'fa-solid fa-ruler-horizontal',simulator:'https://www.stefanelli.eng.br/en/virtual-vernier-caliper-simulator-02-millimeter/',simLabel:'Buka Simulator Vernier Caliper', image:'images/Vernier Caliper.jpg'},
   {name:'Micrometer',desc:'Alat ukur ketebalan dengan ketelitian hingga 0.01 mm atau 0.001 mm.',icon:'fa-solid fa-microscope',simulator:'https://www.stefanelli.eng.br/en/simulator-virtual-micrometer-hundredths-millimeter/',simLabel:'Buka Simulator Micrometer 0.01mm',simulator2:'https://www.stefanelli.eng.br/en/virtual-micrometer-thousandth-millimeter-simulator/',simLabel2:'Buka Simulator Micrometer 0.001mm'},
-  {name:'Mall / Gauge',desc:'Alat ukur untuk mengecek celah atau jarak antara dua bidang.',icon:'fa-solid fa-grip-lines-vertical',simulator:null},
+  {name:'Mall / Gauge',desc:'Alat ukur untuk mengecek celah atau jarak antara dua bidang.',icon:'fa-solid fa-grip-lines-vertical',simulator:null, image:'images/Feeler Gauge.jpg'},
   {name:'Outside Dial',desc:'Alat ukur dial indicator untuk mengukur perbedaan dimensi luar.',icon:'fa-solid fa-gauge-high',simulator:'https://www.stefanelli.eng.br/en/virtual-dial-indicator-simulator-hundredths-millimeter/',simLabel:'Buka Simulator Outside Dial'},
-  {name:'Bevel Protractor',desc:'Alat ukur sudut dengan ketelitian hingga 5 menit.',icon:'fa-solid fa-drafting-compass',simulator:'https://www.stefanelli.eng.br/en/virtual-goniometer-five-minutes-degree/',simLabel:'Buka Simulator Bevel Protractor'},
+  {name:'Bevel Protractor',desc:'Alat ukur sudut dengan ketelitian hingga 5 menit.',icon:'fa-solid fa-drafting-compass',simulator:'https://www.stefanelli.eng.br/en/virtual-goniometer-five-minutes-degree/',simLabel:'Buka Simulator Bevel Protractor', image:'images/Bevel Protractor.jpg'},
   {name:'Surface Table',desc:'Meja datar sebagai acuan utama pengukuran di bengkel.',icon:'fa-solid fa-table',simulator:null},
-  {name:'Cylinder Square Block',desc:'Blok silinder siku sebagai acuan pengecekan kesikuan.',icon:'fa-solid fa-cube',simulator:null},
-  {name:'Height Gauge Marking',desc:'Alat ukur tinggi sekaligus untuk marking garis pada benda kerja.',icon:'fa-solid fa-pen-ruler',simulator:null}
+  {name:'Cylinder Square Block',desc:'Blok silinder siku sebagai acuan pengecekan kesikuan.',icon:'fa-solid fa-cube',simulator:null, image:'images/Cylinder Block.jpg'},
+  {name:'Height Gauge Marking',desc:'Alat ukur tinggi sekaligus untuk marking garis pada benda kerja.',icon:'fa-solid fa-pen-ruler',simulator:null},
+  // Tambahan Alat Ukur sesuai foto yang diupload
+  {name:'Depth Caliper',desc:'Alat mistar geser untuk mengukur kedalaman.',icon:'fa-solid fa-ruler-vertical',simulator:null, image:'images/Depth Caliper.jpg'},
+  {name:'Bevel Transfer',desc:'Alat pemindah sudut dari benda kerja.',icon:'fa-solid fa-pen-nib',simulator:null, image:'images/Bevel Transfer.jpg'},
+  {name:'Angle Gauge',desc:'Mal untuk mengecek sudut secara presisi.',icon:'fa-solid fa-angle-right',simulator:null, image:'images/Angle Gauge.jpg'},
+  {name:'Vitriol / Tuschierpaste',desc:'Pasta penguji kerataan permukaan.',icon:'fa-solid fa-fill-drip',simulator:null, image:'images/Vitriol.jpg'}
 ];
 
 const SOP_ITEMS = [
@@ -1499,13 +1520,20 @@ function renderTargetBelajar() {
   });
 }
 
-/* Alat Ukur */
+/* Alat Ukur (Dengan Fitur Foto) */
 function renderAlatUkur() {
   document.getElementById('alatUkurGrid').innerHTML = ALAT_UKUR.map(tool => {
     let simBtns = '';
     if (tool.simulator) simBtns += `<a href="${tool.simulator}" target="_blank" rel="noopener" class="btn btn-sm btn-primary"><i class="fa-solid fa-external-link-alt"></i> ${tool.simLabel}</a>`;
     if (tool.simulator2) simBtns += `<a href="${tool.simulator2}" target="_blank" rel="noopener" class="btn btn-sm btn-secondary"><i class="fa-solid fa-external-link-alt"></i> ${tool.simLabel2}</a>`;
+    
+    // Inject foto jika datanya ada
+    let imageHTML = tool.image 
+      ? `<div class="tool-image"><img src="${tool.image}" alt="${tool.name}" loading="lazy" onerror="this.style.display='none'"></div>` 
+      : '';
+
     return `<div class="card tool-card reveal">
+      ${imageHTML}
       <div class="tool-header">
         <div class="tool-icon"><i class="${tool.icon}"></i></div>
         <h3>${tool.name}</h3>
