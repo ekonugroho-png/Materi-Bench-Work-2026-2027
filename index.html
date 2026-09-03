@@ -728,11 +728,25 @@ input{font-family:inherit;outline:none}
   text-transform:uppercase;margin-bottom:4px;
 }
 .home-brand-text strong{font-size:18px;color:var(--text-primary)}
-.hero-with-logo{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:28px;align-items:center}
-.hero-logo{
-  width:150px;height:150px;object-fit:contain;background:#fff;border-radius:22px;padding:10px;
-  justify-self:end;box-shadow:0 10px 30px rgba(0,0,0,.22);
+.hero-with-logo{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:center}
+.hero-anim-box{
+  position:relative;width:100%;aspect-ratio:4/3;background:linear-gradient(to bottom,#2d3748,#1a202c);
+  border-radius:22px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.22);justify-self:end;
 }
+.hero-anim-box canvas{display:block;width:100%;height:100%;}
+#anim-ui-controls{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(15,23,42,0.85);
+  padding:8px 12px;border-radius:9999px;display:flex;gap:10px;align-items:center;
+  backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);width:90%;justify-content:center;
+}
+.anim-btn{
+  background:#3b82f6;color:white;border:none;padding:6px 12px;border-radius:6px;
+  cursor:pointer;font-weight:bold;font-size:11px;transition:background 0.2s;
+}
+.anim-btn:hover{background:#2563eb;}
+.anim-btn.active{background:#ef4444;}
+.anim-btn.active:hover{background:#dc2626;}
+#speedSlider{width:80px;height:4px;cursor:pointer;}
 .instructor-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
 .instructor-card{
   display:flex;align-items:center;gap:14px;padding:16px;
@@ -755,7 +769,7 @@ input{font-family:inherit;outline:none}
 }
 @media(max-width:600px){
   .hero-with-logo{grid-template-columns:1fr}
-  .hero-logo{width:90px;height:90px;justify-self:start}
+  .hero-anim-box{max-width:320px;margin:0 auto;justify-self:center}
   .home-brand img{width:60px;height:60px}
 }
 
@@ -864,7 +878,17 @@ function imageFallback(img, label) {
                 <button class="btn btn-secondary" onclick="navigateTo('materi')"><i class="fa-solid fa-book-open"></i> Pelajari Materi</button>
               </div>
             </div>
-            <img class="hero-logo" src="images/logo-atmi.jpg" alt="Logo ATMI" onerror="imageFallback(this, 'Logo ATMI')">
+            
+            <!-- Animasi Kikir (Menggantikan Logo) -->
+            <div id="anim-container" class="hero-anim-box">
+                <canvas id="mainCanvas"></canvas>
+                <div id="anim-ui-controls">
+                    <button id="playBtn" class="anim-btn active">Jeda</button>
+                    <input type="range" id="speedSlider" min="0.2" max="3" step="0.1" value="1" title="Kecepatan">
+                    <button id="resetBtn" class="anim-btn" style="background: #4b5563;">Reset</button>
+                </div>
+            </div>
+            
           </div>
           <div class="hero-deco"><i class="fa-solid fa-gear"></i></div>
         </div>
@@ -1886,6 +1910,7 @@ function init() {
   renderVideo();
   renderDokumen();
   observeReveals();
+  initAnimation(); // Initialize the filing animation
   /* Hide loader */
   setTimeout(() => {
     document.getElementById('loader').classList.add('hidden');
@@ -1908,6 +1933,200 @@ navigateTo = function(pageId) {
   window.location.hash = pageId;
   _origNavigate(pageId);
 };
+
+/* ================================================================
+   ANIMASI KIKIR (FILING PROCESS)
+   ================================================================ */
+function initAnimation() {
+    const canvas = document.getElementById('mainCanvas');
+    const container = document.getElementById('anim-container');
+    if(!canvas || !container) return;
+    const ctx = canvas.getContext('2d');
+    const playBtn = document.getElementById('playBtn');
+    const speedSlider = document.getElementById('speedSlider');
+    const resetBtn = document.getElementById('resetBtn');
+
+    function resizeCanvas() {
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let isPlaying = true;
+    let speedMultiplier = 1;
+    let animationTime = 0;
+    let materialWear = 0;
+
+    class Chip {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.vx = (Math.random() * -3) - 1; 
+            this.vy = (Math.random() * -2) - 1; 
+            this.gravity = 0.3;
+            this.size = Math.random() * 3 + 1;
+            const shades = ['#94a3b8', '#cbd5e1', '#e2e8f0', '#64748b'];
+            this.color = shades[Math.floor(Math.random() * shades.length)];
+            this.life = 1.0; 
+            this.decay = Math.random() * 0.02 + 0.01;
+            this.rotation = Math.random() * Math.PI * 2;
+            this.rotSpeed = (Math.random() - 0.5) * 0.5;
+        }
+        update() {
+            this.vy += this.gravity;
+            this.x += this.vx;
+            this.y += this.vy;
+            this.rotation += this.rotSpeed;
+            this.life -= this.decay;
+        }
+        draw(ctx) {
+            if (this.life <= 0) return;
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.rotation);
+            ctx.globalAlpha = this.life;
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(this.size, this.size/2);
+            ctx.lineTo(this.size/2, this.size);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+    }
+
+    let chips = [];
+
+    function drawVise(ctx, centerX, centerY, scale) {
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.scale(scale, scale);
+        ctx.fillStyle = '#1e293b'; 
+        ctx.beginPath();
+        ctx.moveTo(-150, 200); ctx.lineTo(-50, 200); ctx.lineTo(-50, 0); ctx.lineTo(-100, 0);
+        ctx.closePath(); ctx.fill();
+        ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 4; ctx.stroke();
+        ctx.fillStyle = '#475569'; ctx.fillRect(-50, -20, 20, 60);
+        ctx.fillStyle = '#1e293b';
+        ctx.beginPath();
+        ctx.moveTo(50, 200); ctx.lineTo(150, 200); ctx.lineTo(100, 0); ctx.lineTo(50, 0);
+        ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#475569'; ctx.fillRect(30, -20, 20, 60);
+        ctx.fillStyle = '#94a3b8'; ctx.fillRect(100, 100, 80, 15);
+        ctx.fillStyle = '#334155'; ctx.fillRect(170, 80, 15, 55);
+        ctx.restore();
+    }
+
+    function drawWorkpiece(ctx, centerX, centerY, scale) {
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.scale(scale, scale);
+        const materialTop = -100 + (materialWear * 0.1); 
+        const materialHeight = 100 - (materialWear * 0.1);
+        const grad = ctx.createLinearGradient(-30, materialTop, 30, materialTop);
+        grad.addColorStop(0, '#64748b'); grad.addColorStop(0.5, '#cbd5e1'); grad.addColorStop(1, '#475569');
+        ctx.fillStyle = grad; ctx.fillRect(-30, materialTop, 60, materialHeight);
+        ctx.strokeStyle = '#334155'; ctx.lineWidth = 2; ctx.strokeRect(-30, materialTop, 60, materialHeight);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)'; ctx.fillRect(-30, materialTop, 60, 3);
+        ctx.restore();
+        return centerY + (materialTop * scale); 
+    }
+
+    function drawFile(ctx, fileX, fileY, scale, angle = 0) {
+        ctx.save();
+        ctx.translate(fileX, fileY);
+        ctx.rotate(angle);
+        ctx.scale(scale, scale);
+        const fileLength = 400, fileWidth = 25, tangLength = 50, handleLength = 120, handleWidth = 35;
+        const fileGrad = ctx.createLinearGradient(0, -fileWidth/2, 0, fileWidth/2);
+        fileGrad.addColorStop(0, '#475569'); fileGrad.addColorStop(0.2, '#94a3b8'); fileGrad.addColorStop(0.8, '#64748b'); fileGrad.addColorStop(1, '#334155');
+        ctx.fillStyle = fileGrad;
+        ctx.beginPath();
+        ctx.moveTo(-fileLength, -fileWidth/2 + 5); ctx.lineTo(0, -fileWidth/2); 
+        ctx.lineTo(0, fileWidth/2); ctx.lineTo(-fileLength, fileWidth/2 - 5);
+        ctx.closePath(); ctx.fill();
+        ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)'; ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let i = 0; i < fileLength; i += 6) {
+            ctx.moveTo(-fileLength + i, -fileWidth/2 + 2); ctx.lineTo(-fileLength + i + 10, fileWidth/2 - 2);
+        }
+        for (let i = 0; i < fileLength; i += 6) {
+            ctx.moveTo(-fileLength + i + 10, -fileWidth/2 + 2); ctx.lineTo(-fileLength + i, fileWidth/2 - 2);
+        }
+        ctx.stroke();
+        ctx.fillStyle = '#334155';
+        ctx.beginPath(); ctx.moveTo(0, -10); ctx.lineTo(tangLength, -5); ctx.lineTo(tangLength, 5); ctx.lineTo(0, 10); ctx.closePath(); ctx.fill();
+        const handleGrad = ctx.createLinearGradient(tangLength, -handleWidth/2, tangLength, handleWidth/2);
+        handleGrad.addColorStop(0, '#78350f'); handleGrad.addColorStop(0.3, '#d97706'); handleGrad.addColorStop(0.7, '#b45309'); handleGrad.addColorStop(1, '#451a03');
+        ctx.fillStyle = handleGrad;
+        ctx.beginPath(); ctx.moveTo(tangLength, -10);
+        ctx.bezierCurveTo(tangLength + 30, -handleWidth/2 - 5, tangLength + handleLength - 20, -handleWidth/2, tangLength + handleLength, 0);
+        ctx.bezierCurveTo(tangLength + handleLength - 20, handleWidth/2, tangLength + 30, handleWidth/2 + 5, tangLength, 10);
+        ctx.closePath(); ctx.fill();
+        ctx.fillStyle = '#cbd5e1'; ctx.fillRect(tangLength, -12, 15, 24);
+        ctx.strokeStyle = '#64748b'; ctx.strokeRect(tangLength, -12, 15, 24);
+        ctx.restore();
+    }
+
+    function animateAnim() {
+        if(!document.getElementById('mainCanvas')) return; 
+        if (isPlaying) { animationTime += 0.02 * speedMultiplier; }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const scale = canvas.width / 1000;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height * 0.75; 
+        drawVise(ctx, centerX, centerY, scale);
+        const materialTopY = drawWorkpiece(ctx, centerX, centerY, scale);
+        const cycle = animationTime % (Math.PI * 2);
+        const isForwardStroke = cycle < Math.PI;
+        const startX = centerX + (200 * scale); 
+        const endX = centerX - (50 * scale);    
+        let fileX;
+        let fileAngle = 0;
+        if (isForwardStroke) {
+            const progress = cycle / Math.PI; 
+            const easeProgress = Math.sin(progress * Math.PI / 2);
+            fileX = startX - (startX - endX) * easeProgress;
+            fileAngle = 0.01 * scale; 
+            if (isPlaying && progress > 0.1 && progress < 0.9) {
+                materialWear += 0.05 * speedMultiplier; 
+                if (Math.random() > 0.3) {
+                    const contactX = centerX - (30 * scale); 
+                    chips.push(new Chip(contactX, materialTopY));
+                    if(Math.random() > 0.5) chips.push(new Chip(contactX + (Math.random()*10-5), materialTopY));
+                }
+            }
+        } else {
+            const progress = (cycle - Math.PI) / Math.PI; 
+            const easeProgress = 0.5 - Math.cos(progress * Math.PI) / 2;
+            fileX = endX + (startX - endX) * easeProgress;
+            fileAngle = -0.02 * scale;
+        }
+        for (let i = chips.length - 1; i >= 0; i--) {
+            let c = chips[i];
+            if(isPlaying) c.update();
+            c.draw(ctx);
+            if (c.life <= 0 || c.y > canvas.height + 50) { chips.splice(i, 1); }
+        }
+        drawFile(ctx, fileX, materialTopY - (2 * scale), scale, fileAngle);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.font = '12px sans-serif';
+        ctx.fillText(isForwardStroke ? "Fase: Mendorong" : "Fase: Menarik", 10, 20);
+        requestAnimationFrame(animateAnim);
+    }
+    animateAnim();
+
+    playBtn.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        if (isPlaying) { playBtn.textContent = 'Jeda'; playBtn.classList.add('active'); } 
+        else { playBtn.textContent = 'Mulai'; playBtn.classList.remove('active'); }
+    });
+    speedSlider.addEventListener('input', (e) => { speedMultiplier = parseFloat(e.target.value); });
+    resetBtn.addEventListener('click', () => { materialWear = 0; chips = []; });
+}
 
 document.addEventListener('DOMContentLoaded', init);
 </script>
