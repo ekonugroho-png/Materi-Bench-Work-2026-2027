@@ -759,7 +759,45 @@ input{font-family:inherit;outline:none}
   .home-brand img{width:60px;height:60px}
 }
 
+
+/* Image fallback: only appears when a file is genuinely missing. */
+.image-fallback{
+  width:100%;
+  height:100%;
+  min-height:72px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  color:var(--text-muted);
+  font-size:12px;
+  text-align:center;
+}
+.image-fallback i{font-size:24px;color:var(--accent)}
+
 </style>
+
+<script>
+/* ================================================================
+   IMAGE LOADER - Pindah ke head agar tidak terjadi ReferenceError
+   ================================================================ */
+function imagePath(fileName) {
+  return 'images/' + encodeURIComponent(fileName).replace(/%2F/gi, '/');
+}
+
+function imageFallback(img, label) {
+  img.onerror = null;
+  img.style.display = 'none';
+  const box = img.closest('.tool-image') || img.parentElement;
+  if (box && !box.querySelector('.image-fallback')) {
+    const f = document.createElement('div');
+    f.className = 'image-fallback';
+    f.innerHTML = '<i class="fa-regular fa-image"></i><span>' + label + '</span>';
+    box.appendChild(f);
+  }
+}
+</script>
 </head>
 <body>
 
@@ -776,7 +814,7 @@ input{font-family:inherit;outline:none}
   <!-- ========== SIDEBAR ========== -->
   <aside id="sidebar">
     <div class="sidebar-brand">
-      <img class="brand-logo" src="images/logo-atmi.jpg" alt="Logo ATMI">
+      <img class="brand-logo" src="images/logo-atmi.jpg" alt="Logo ATMI" onerror="imageFallback(this, 'Logo ATMI')">
       <div>
         <h2>BENCH WORK</h2>
         <span>Digital Learning Guide</span>
@@ -812,7 +850,7 @@ input{font-family:inherit;outline:none}
           <div class="hero-with-logo">
             <div class="hero-content">
               <div class="home-brand">
-                <img src="images/logo-atmi.jpg" alt="Logo ATMI">
+                <img src="images/logo-atmi.jpg" alt="Logo ATMI" onerror="imageFallback(this, 'Logo ATMI')">
                 <div class="home-brand-text">
                   <small>Politeknik ATMI Surakarta</small>
                   <strong>Digital Learning & Practicum Guide</strong>
@@ -826,7 +864,7 @@ input{font-family:inherit;outline:none}
                 <button class="btn btn-secondary" onclick="navigateTo('materi')"><i class="fa-solid fa-book-open"></i> Pelajari Materi</button>
               </div>
             </div>
-            <img class="hero-logo" src="images/logo-atmi.jpg" alt="Logo ATMI">
+            <img class="hero-logo" src="images/logo-atmi.jpg" alt="Logo ATMI" onerror="imageFallback(this, 'Logo ATMI')">
           </div>
           <div class="hero-deco"><i class="fa-solid fa-gear"></i></div>
         </div>
@@ -1214,9 +1252,9 @@ const NAV_ITEMS = [
 ];
 
 const INSTRUCTORS = [
-  {name:'Candra Galih Wisudawan',initials:'CG',photo:'images/chandra-galih-wisudawan.jpg'},
-  {name:'Sudibtia Titio Koin',initials:'ST',photo:'images/sudibtia-titio-koin.jpg'},
-  {name:'Hieronimus Vikko Purohita',initials:'HV',photo:'images/hieronimus-vikko-purohita.jpg'}
+  {name:'Chandra Galih Wisudawan',initials:'CG',photo:imagePath('chandra-galih-wisudawan.jpg')},
+  {name:'Sudibtia Titio Koin',initials:'ST',photo:imagePath('sudibtia-titio-koin.jpg')},
+  {name:'Hieronimus Vikko Purohita',initials:'HV',photo:imagePath('hieronimus-vikko-purohita.jpg')}
 ];
 
 const QUICK_ACCESS = [
@@ -1277,22 +1315,22 @@ const TARGET_BELAJAR = [
 ];
 
 const ALAT_UKUR = [
-  {name:'Hair Line / Knife Straight Edge',desc:'Alat ukur garis lurus dengan ketajaman pisau untuk mengecek kelistrikan permukaan.',icon:'fa-solid fa-ruler',simulator:null, image:'images/Hair Line.jpg'},
+  {name:'Hair Line / Knife Straight Edge',desc:'Alat ukur garis lurus dengan ketajaman pisau untuk mengecek kelistrikan permukaan.',icon:'fa-solid fa-ruler',simulator:null, image:imagePath('Hair Line.jpg')},
   {name:'Square Line / Square Straight Edge',desc:'Alat ukur siku untuk mengecek kerataan dan kesikuan bidang.',icon:'fa-solid fa-ruler-combined',simulator:null},
-  {name:'Dial Caliper',desc:'Alat ukur panjang dengan dial pointer untuk pembacaan yang lebih mudah.',icon:'fa-solid fa-caliper',simulator:'https://www.stefanelli.eng.br/en/virtual-dial-caliper-hundredth-millimeter-simulator/',simLabel:'Buka Simulator Dial Caliper', image:'images/Dial Caliper.jpg'},
-  {name:'Vernier Caliper',desc:'Alat ukur panjang dengan skala vernier untuk ketelitian hingga 0.02 mm.',icon:'fa-solid fa-ruler-horizontal',simulator:'https://www.stefanelli.eng.br/en/virtual-vernier-caliper-simulator-02-millimeter/',simLabel:'Buka Simulator Vernier Caliper', image:'images/Vernier Caliper.jpg'},
+  {name:'Dial Caliper',desc:'Alat ukur panjang dengan dial pointer untuk pembacaan yang lebih mudah.',icon:'fa-solid fa-caliper',simulator:'https://www.stefanelli.eng.br/en/virtual-dial-caliper-hundredth-millimeter-simulator/',simLabel:'Buka Simulator Dial Caliper', image:imagePath('Dial Caliper.jpg')},
+  {name:'Vernier Caliper',desc:'Alat ukur panjang dengan skala vernier untuk ketelitian hingga 0.02 mm.',icon:'fa-solid fa-ruler-horizontal',simulator:'https://www.stefanelli.eng.br/en/virtual-vernier-caliper-simulator-02-millimeter/',simLabel:'Buka Simulator Vernier Caliper', image:imagePath('Vernier Caliper.jpg')},
   {name:'Micrometer',desc:'Alat ukur ketebalan dengan ketelitian hingga 0.01 mm atau 0.001 mm.',icon:'fa-solid fa-microscope',simulator:'https://www.stefanelli.eng.br/en/simulator-virtual-micrometer-hundredths-millimeter/',simLabel:'Buka Simulator Micrometer 0.01mm',simulator2:'https://www.stefanelli.eng.br/en/virtual-micrometer-thousandth-millimeter-simulator/',simLabel2:'Buka Simulator Micrometer 0.001mm'},
-  {name:'Mall / Gauge',desc:'Alat ukur untuk mengecek celah atau jarak antara dua bidang.',icon:'fa-solid fa-grip-lines-vertical',simulator:null, image:'images/Feeler Gauge.jpg'},
+  {name:'Mall / Gauge',desc:'Alat ukur untuk mengecek celah atau jarak antara dua bidang.',icon:'fa-solid fa-grip-lines-vertical',simulator:null, image:imagePath('Feeler Gauge.jpg')},
   {name:'Outside Dial',desc:'Alat ukur dial indicator untuk mengukur perbedaan dimensi luar.',icon:'fa-solid fa-gauge-high',simulator:'https://www.stefanelli.eng.br/en/virtual-dial-indicator-simulator-hundredths-millimeter/',simLabel:'Buka Simulator Outside Dial'},
-  {name:'Bevel Protractor',desc:'Alat ukur sudut dengan ketelitian hingga 5 menit.',icon:'fa-solid fa-drafting-compass',simulator:'https://www.stefanelli.eng.br/en/virtual-goniometer-five-minutes-degree/',simLabel:'Buka Simulator Bevel Protractor', image:'images/Bevel Protractor.jpg'},
+  {name:'Bevel Protractor',desc:'Alat ukur sudut dengan ketelitian hingga 5 menit.',icon:'fa-solid fa-drafting-compass',simulator:'https://www.stefanelli.eng.br/en/virtual-goniometer-five-minutes-degree/',simLabel:'Buka Simulator Bevel Protractor', image:imagePath('Bevel Protractor.jpg')},
   {name:'Surface Table',desc:'Meja datar sebagai acuan utama pengukuran di bengkel.',icon:'fa-solid fa-table',simulator:null},
-  {name:'Cylinder Square Block',desc:'Blok silinder siku sebagai acuan pengecekan kesikuan.',icon:'fa-solid fa-cube',simulator:null, image:'images/Cylinder Block.jpg'},
+  {name:'Cylinder Square Block',desc:'Blok silinder siku sebagai acuan pengecekan kesikuan.',icon:'fa-solid fa-cube',simulator:null, image:imagePath('Cylinder Block.jpg')},
   {name:'Height Gauge Marking',desc:'Alat ukur tinggi sekaligus untuk marking garis pada benda kerja.',icon:'fa-solid fa-pen-ruler',simulator:null},
   // Tambahan Alat Ukur sesuai foto yang diupload
-  {name:'Depth Caliper',desc:'Alat mistar geser untuk mengukur kedalaman.',icon:'fa-solid fa-ruler-vertical',simulator:null, image:'images/Depth Caliper.jpg'},
-  {name:'Bevel Transfer',desc:'Alat pemindah sudut dari benda kerja.',icon:'fa-solid fa-pen-nib',simulator:null, image:'images/Bevel Transfer.jpg'},
-  {name:'Angle Gauge',desc:'Mal untuk mengecek sudut secara presisi.',icon:'fa-solid fa-angle-right',simulator:null, image:'images/Angle Gauge.jpg'},
-  {name:'Vitriol / Tuschierpaste',desc:'Pasta penguji kerataan permukaan.',icon:'fa-solid fa-fill-drip',simulator:null, image:'images/Vitriol.jpg'}
+  {name:'Depth Caliper',desc:'Alat mistar geser untuk mengukur kedalaman.',icon:'fa-solid fa-ruler-vertical',simulator:null, image:imagePath('Depth Caliper.jpg')},
+  {name:'Bevel Transfer',desc:'Alat pemindah sudut dari benda kerja.',icon:'fa-solid fa-pen-nib',simulator:null, image:imagePath('Bevel Transfer.jpg')},
+  {name:'Angle Gauge',desc:'Mal untuk mengecek sudut secara presisi.',icon:'fa-solid fa-angle-right',simulator:null, image:imagePath('Angle Gauge.jpg')},
+  {name:'Vitriol / Tuschierpaste',desc:'Pasta penguji kerataan permukaan.',icon:'fa-solid fa-fill-drip',simulator:null, image:imagePath('Vitriol.jpg')}
 ];
 
 const SOP_ITEMS = [
@@ -1484,7 +1522,7 @@ function renderInstructors() {
   document.getElementById('instructorCards').innerHTML = INSTRUCTORS.map(i =>
     `<div class="instructor-card">
       <img class="instructor-photo" src="${i.photo}" alt="Foto ${i.name}" loading="lazy"
-           onerror="this.style.display='none'">
+           onerror="imageFallback(this, 'Foto instruktur')">
       <div class="instructor-info">
         <small class="instructor-role">Instruktur Bench Work</small>
         <span>${i.name}</span>
@@ -1529,7 +1567,7 @@ function renderAlatUkur() {
     
     // Inject foto jika datanya ada
     let imageHTML = tool.image 
-      ? `<div class="tool-image"><img src="${tool.image}" alt="${tool.name}" loading="lazy" onerror="this.style.display='none'"></div>` 
+      ? `<div class="tool-image"><img src="${tool.image}" alt="${tool.name}" loading="lazy" onerror="imageFallback(this, 'Foto alat ukur')"></div>` 
       : '';
 
     return `<div class="card tool-card reveal">
