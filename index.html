@@ -10,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-/* ========== 1. CSS VARIABLES ========== */
 :root {
   --bg-primary: #0a0f16;
   --bg-secondary: #111827;
@@ -50,7 +49,6 @@
   --card-shadow: 0 4px 24px rgba(0,0,0,0.08);
 }
 
-/* ========== 2. RESET & BASE ========== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
 body{
@@ -79,7 +77,6 @@ input{font-family:inherit;outline:none}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
 
-/* ========== 3. LOADING SCREEN ========== */
 #loader{
   position:fixed;inset:0;z-index:9999;
   background:var(--bg-primary);
@@ -96,7 +93,6 @@ input{font-family:inherit;outline:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loader-text{margin-top:16px;color:var(--text-secondary);font-size:14px;letter-spacing:2px;text-transform:uppercase}
 
-/* ========== 4. LAYOUT ========== */
 #app{display:flex;min-height:100vh;position:relative;z-index:1}
 #sidebar{
   width:var(--sidebar-width);height:100vh;position:fixed;left:0;top:0;z-index:100;
@@ -120,9 +116,13 @@ input{font-family:inherit;outline:none}
 .page-section.active{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-/* ========== 5. SIDEBAR ========== */
 .sidebar-brand{
   padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.06);
+  display:flex;align-items:center;gap:12px;
+}
+.sidebar-brand .brand-logo{
+  width:46px;height:46px;object-fit:contain;border-radius:8px;
+  background:#fff;padding:3px;flex-shrink:0;
 }
 .sidebar-brand h2{font-size:18px;color:#f1f5f9;letter-spacing:1px}
 .sidebar-brand span{font-size:11px;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase}
@@ -143,7 +143,6 @@ input{font-family:inherit;outline:none}
   font-size:11px;color:var(--text-muted);
 }
 
-/* ========== 6. TOPBAR ========== */
 .hamburger{
   display:none;background:none;color:var(--text-primary);
   font-size:20px;padding:4px;
@@ -183,7 +182,6 @@ input{font-family:inherit;outline:none}
 }
 .theme-toggle:hover{color:var(--accent);border-color:var(--accent)}
 
-/* ========== 7. HERO ========== */
 .hero{
   position:relative;padding:60px 40px;margin-bottom:40px;
   border-radius:var(--radius);overflow:hidden;
@@ -217,31 +215,50 @@ input{font-family:inherit;outline:none}
   font-size:120px;color:rgba(245,158,11,0.04);pointer-events:none;
 }
 
-/* ========== 8. BUTTONS ========== */
+.hero-with-logo{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:center}
+.hero-anim-box{
+  position:relative;width:100%;aspect-ratio:4/3;background:linear-gradient(to bottom,#2d3748,#1a202c);
+  border-radius:22px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.22);justify-self:end;
+}
+.hero-anim-box canvas{display:block;width:100%;height:100%;}
+#anim-ui-controls{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(15,23,42,0.85);
+  padding:8px 12px;border-radius:9999px;display:flex;gap:10px;align-items:center;
+  backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);width:90%;justify-content:center;
+}
+.anim-btn{
+  background:#3b82f6;color:white;border:none;padding:6px 12px;border-radius:6px;
+  cursor:pointer;font-weight:bold;font-size:11px;transition:background 0.2s;
+}
+.anim-btn:hover{background:#2563eb;}
+.anim-btn.active{background:#ef4444;}
+.anim-btn.active:hover{background:#dc2626;}
+#speedSlider{width:80px;height:4px;cursor:pointer;}
+
+.home-brand{
+  display:flex;align-items:center;gap:18px;margin-bottom:20px;
+}
+.home-brand img{
+  width:78px;height:78px;object-fit:contain;background:#fff;border-radius:14px;
+  padding:5px;box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+.home-brand-text small{
+  display:block;color:var(--text-muted);font-size:11px;letter-spacing:1.5px;
+  text-transform:uppercase;margin-bottom:4px;
+}
+.home-brand-text strong{font-size:18px;color:var(--text-primary)}
+
 .btn{
   display:inline-flex;align-items:center;gap:8px;padding:10px 24px;
   border-radius:var(--radius-sm);font-size:14px;font-weight:600;
   transition:all var(--transition);letter-spacing:0.3px;
 }
-.btn-primary{
-  background:var(--accent);color:#0a0f16;
-}
+.btn-primary{background:var(--accent);color:#0a0f16;}
 .btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 16px rgba(245,158,11,0.3)}
-.btn-secondary{
-  background:transparent;color:var(--text-primary);
-  border:1px solid var(--border);
-}
+.btn-secondary{background:transparent;color:var(--text-primary);border:1px solid var(--border);}
 .btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
 .btn-sm{padding:7px 16px;font-size:13px}
-.btn-icon{
-  width:36px;height:36px;padding:0;display:inline-flex;
-  align-items:center;justify-content:center;border-radius:var(--radius-sm);
-  background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);
-  transition:all var(--transition);
-}
-.btn-icon:hover{color:var(--accent);border-color:var(--accent)}
 
-/* ========== 9. CARDS ========== */
 .card{
   background:var(--bg-card);border:1px solid var(--border);
   border-radius:var(--radius);padding:24px;
@@ -263,10 +280,8 @@ input{font-family:inherit;outline:none}
   font-family:'Space Grotesk',sans-serif;line-height:1;
 }
 
-/* ========== 10. GRID LAYOUTS ========== */
 .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .quick-card{
   background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);
@@ -276,15 +291,11 @@ input{font-family:inherit;outline:none}
 .quick-card i{font-size:22px;color:var(--accent);margin-bottom:8px;display:block}
 .quick-card span{font-size:12px;color:var(--text-secondary);font-weight:500}
 
-/* ========== 11. SECTION HEADER ========== */
 .section-header{margin-bottom:32px}
 .section-header h2{font-size:28px;margin-bottom:8px}
 .section-header p{color:var(--text-secondary);font-size:15px}
-.section-divider{
-  width:48px;height:3px;background:var(--accent);border-radius:2px;margin-top:12px;
-}
+.section-divider{width:48px;height:3px;background:var(--accent);border-radius:2px;margin-top:12px}
 
-/* ========== 12. STAT CARDS ========== */
 .stat-card{
   background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
   padding:24px;text-align:center;
@@ -294,9 +305,7 @@ input{font-family:inherit;outline:none}
   color:var(--accent);line-height:1;
 }
 .stat-card .stat-label{font-size:13px;color:var(--text-secondary);margin-top:8px}
-.stat-card .stat-sub{font-size:11px;color:var(--text-muted);margin-top:4px}
 
-/* ========== 13. TABS ========== */
 .tabs{display:flex;gap:4px;margin-bottom:28px;border-bottom:1px solid var(--border);padding-bottom:0;overflow-x:auto}
 .tab-btn{
   padding:10px 20px;font-size:14px;font-weight:500;color:var(--text-muted);
@@ -308,11 +317,8 @@ input{font-family:inherit;outline:none}
 .tab-panel{display:none;animation:fadeUp 0.3s ease}
 .tab-panel.active{display:block}
 
-/* ========== 14. DONUT CHART ========== */
 .donut-wrapper{display:flex;flex-direction:column;align-items:center;gap:16px}
-.donut{
-  width:180px;height:180px;border-radius:50%;position:relative;
-}
+.donut{width:180px;height:180px;border-radius:50%;position:relative}
 .donut::after{
   content:'';position:absolute;inset:28%;border-radius:50%;
   background:var(--bg-card);
@@ -321,7 +327,6 @@ input{font-family:inherit;outline:none}
 .legend-item{display:flex;align-items:center;gap:8px;font-size:13px}
 .legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
 
-/* ========== 15. ACCORDION ========== */
 .accordion-item{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden}
 .accordion-header{
   width:100%;padding:16px 20px;background:var(--bg-card);
@@ -341,12 +346,8 @@ input{font-family:inherit;outline:none}
 .accordion-body ul{padding-left:20px;margin-top:8px}
 .accordion-body li{margin-bottom:4px}
 
-/* ========== 16. TIMELINE ========== */
 .timeline{position:relative;padding-left:32px}
-.timeline::before{
-  content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;
-  background:var(--border);
-}
+.timeline::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:var(--border)}
 .timeline-item{position:relative;margin-bottom:24px}
 .timeline-item:last-child{margin-bottom:0}
 .timeline-dot{
@@ -355,14 +356,10 @@ input{font-family:inherit;outline:none}
   display:flex;align-items:center;justify-content:center;z-index:1;
 }
 .timeline-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--accent)}
-.timeline-time{
-  font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;
-  color:var(--accent);margin-bottom:4px;
-}
+.timeline-time{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--accent);margin-bottom:4px}
 .timeline-title{font-size:15px;font-weight:600;margin-bottom:4px}
 .timeline-desc{font-size:13px;color:var(--text-secondary)}
 
-/* ========== 17. STEPS ========== */
 .steps{display:flex;flex-direction:column;gap:12px}
 .step-item{
   display:flex;gap:16px;padding:16px;background:var(--bg-card);
@@ -378,7 +375,6 @@ input{font-family:inherit;outline:none}
 .step-content h4{font-size:14px;margin-bottom:4px}
 .step-content p{font-size:13px;color:var(--text-secondary)}
 
-/* ========== 18. MODAL ========== */
 #modal-overlay{
   position:fixed;inset:0;z-index:500;
   background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);
@@ -407,7 +403,6 @@ input{font-family:inherit;outline:none}
 .modal-body ul{padding-left:20px;margin-bottom:12px}
 .modal-body li{font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:4px}
 
-/* ========== 19. TOAST ========== */
 #toast-container{
   position:fixed;bottom:24px;right:24px;z-index:600;
   display:flex;flex-direction:column;gap:8px;
@@ -422,7 +417,6 @@ input{font-family:inherit;outline:none}
 .toast i{color:var(--accent)}
 @keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
 
-/* ========== 20. BACK TO TOP ========== */
 #back-to-top{
   position:fixed;bottom:24px;left:calc(var(--sidebar-width) + 24px);z-index:80;
   width:40px;height:40px;border-radius:50%;
@@ -434,16 +428,13 @@ input{font-family:inherit;outline:none}
 #back-to-top.show{display:flex}
 #back-to-top:hover{transform:translateY(-2px);background:var(--accent-hover)}
 
-/* ========== 21. CIPTA-RASA-KARSA-KARYA ========== */
 .crkk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0}
 .crkk-card{
   text-align:center;padding:24px 16px;
   background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
   position:relative;overflow:hidden;
 }
-.crkk-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-}
+.crkk-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .crkk-card:nth-child(1)::before{background:var(--accent)}
 .crkk-card:nth-child(2)::before{background:var(--cyan)}
 .crkk-card:nth-child(3)::before{background:var(--success)}
@@ -455,7 +446,6 @@ input{font-family:inherit;outline:none}
 .crkk-card:nth-child(4) h4{color:var(--red)}
 .crkk-card p{font-size:13px;color:var(--text-secondary)}
 
-/* ========== 22. ENGINEER TRAITS ========== */
 .traits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:20px 0}
 .trait-item{
   display:flex;align-items:center;gap:10px;padding:12px 16px;
@@ -464,7 +454,6 @@ input{font-family:inherit;outline:none}
 }
 .trait-item i{color:var(--accent);font-size:16px}
 
-/* ========== 23. KKM DISPLAY ========== */
 .kkm-display{
   display:flex;align-items:center;gap:32px;padding:32px;
   background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
@@ -480,7 +469,6 @@ input{font-family:inherit;outline:none}
 }
 .kkm-formula strong{color:var(--text-primary)}
 
-/* ========== 24. 5R CARDS ========== */
 .r5-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin:24px 0}
 .r5-card{
   text-align:center;padding:28px 16px;
@@ -495,7 +483,6 @@ input{font-family:inherit;outline:none}
 .r5-card h4{font-size:16px;margin-bottom:8px}
 .r5-card p{font-size:12px;color:var(--text-secondary);line-height:1.5}
 
-/* ========== 25. SAFETY BANNER ========== */
 .safety-banner{
   padding:32px;border-radius:var(--radius);
   background:linear-gradient(135deg,rgba(239,68,68,0.1),rgba(245,158,11,0.05));
@@ -506,7 +493,6 @@ input{font-family:inherit;outline:none}
 .safety-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-secondary)}
 .safety-item i{color:var(--red);margin-top:3px;flex-shrink:0}
 
-/* ========== 26. VIDEO CARDS ========== */
 .video-card{
   background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
   overflow:hidden;transition:all var(--transition);
@@ -530,7 +516,6 @@ input{font-family:inherit;outline:none}
 .video-info h4{font-size:15px;margin-bottom:6px}
 .video-info p{font-size:13px;color:var(--text-secondary);line-height:1.5}
 
-/* ========== 27. DOC CARDS ========== */
 .doc-card{
   display:flex;align-items:center;gap:16px;padding:20px;
   background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
@@ -546,24 +531,12 @@ input{font-family:inherit;outline:none}
 .doc-info h4{font-size:15px;margin-bottom:2px}
 .doc-info p{font-size:12px;color:var(--text-muted)}
 
-/* ========== 28. ALAT UKUR CARDS ========== */
 .tool-card { display: flex; flex-direction: column; height: 100%; padding: 20px; }
 .tool-image {
-  width: 100%;
-  height: 180px;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 16px;
-  background: #ffffff; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%; height: 180px; border-radius: 8px; overflow: hidden; margin-bottom: 16px;
+  background: #ffffff; display: flex; align-items: center; justify-content: center;
 }
-.tool-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; 
-}
+.tool-image img { width: 100%; height: 100%; object-fit: contain; }
 .tool-card .tool-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .tool-card .tool-icon{
   width:40px;height:40px;border-radius:8px;
@@ -574,7 +547,6 @@ input{font-family:inherit;outline:none}
 .tool-card p{font-size:13px;color:var(--text-secondary);margin-bottom:12px;line-height:1.6}
 .tool-actions{display:flex;gap:8px;flex-wrap:wrap}
 
-/* ========== 29. LATIHAN CARDS ========== */
 .latihan-card{position:relative}
 .latihan-card .latihan-num{
   position:absolute;top:16px;right:20px;
@@ -589,14 +561,6 @@ input{font-family:inherit;outline:none}
   border:1px solid var(--border);
 }
 
-/* ========== 30. PROGRESS BAR ========== */
-.progress-bar{height:8px;background:var(--bg-hover);border-radius:4px;overflow:hidden;margin-top:8px}
-.progress-fill{height:100%;border-radius:4px;transition:width 1s ease}
-.progress-fill.amber{background:var(--accent)}
-.progress-fill.cyan{background:var(--cyan)}
-.progress-fill.green{background:var(--success)}
-
-/* ========== 31. FOOTER ========== */
 #footer{
   margin-left:var(--sidebar-width);padding:40px 24px 24px;
   border-top:1px solid var(--border);
@@ -611,30 +575,24 @@ input{font-family:inherit;outline:none}
 .footer-col a:hover{color:var(--accent)}
 .footer-bottom{max-width:1200px;margin:24px auto 0;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);text-align:center}
 
-/* ========== 32. REVEAL ANIMATION ========== */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
-/* ========== 33. RESPONSIVE ========== */
 @media(max-width:1024px){
-  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(2,1fr)}
   .crkk-grid{grid-template-columns:repeat(2,1fr)}
   .r5-grid{grid-template-columns:repeat(3,1fr)}
 }
 @media(max-width:768px){
   #sidebar{transform:translateX(-100%)}
   #sidebar.open{transform:translateX(0)}
-  .sidebar-overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;
-    display:none;
-  }
+  .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;display:none}
   .sidebar-overlay.show{display:block}
   #main-wrapper{margin-left:0}
   #footer{margin-left:0}
   #back-to-top{left:24px}
   .hamburger{display:flex}
   .grid-2,.grid-3{grid-template-columns:1fr}
-  .grid-4{grid-template-columns:1fr 1fr}
   .crkk-grid{grid-template-columns:1fr 1fr}
   .r5-grid{grid-template-columns:1fr 1fr}
   .hero{padding:32px 24px}
@@ -644,9 +602,10 @@ input{font-family:inherit;outline:none}
   .tab-btn{padding:8px 14px;font-size:13px}
   .safety-list{grid-template-columns:1fr}
   .quick-grid{grid-template-columns:repeat(3,1fr)}
+  .hero-with-logo{grid-template-columns:1fr}
+  .hero-anim-box{max-width:320px;margin:0 auto;justify-self:center}
 }
 @media(max-width:480px){
-  .grid-4{grid-template-columns:1fr}
   .r5-grid{grid-template-columns:1fr}
   .crkk-grid{grid-template-columns:1fr}
   .quick-grid{grid-template-columns:repeat(2,1fr)}
@@ -655,98 +614,9 @@ input{font-family:inherit;outline:none}
   .footer-links{flex-direction:column;gap:20px}
 }
 
-/* ========== 34. MOBILE OVERLAY ========== */
 .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;display:none}
 .sidebar-overlay.show{display:block}
 
-/* ========== 35. INSTRUCTORS ========== */
-.instructor-cards{display:flex;gap:16px;flex-wrap:wrap;margin:20px 0}
-.instructor-card{
-  display:flex;align-items:center;gap:12px;padding:14px 18px;
-  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);
-  flex:1;min-width:200px;
-}
-.instructor-avatar{
-  width:40px;height:40px;border-radius:50%;
-  background:var(--accent-glow);color:var(--accent);
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:700;
-}
-.instructor-card span{font-size:14px;font-weight:500}
-
-/* ========== 36. PROFESI CARDS ========== */
-.profesi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:20px 0}
-.profesi-card{
-  padding:20px 16px;background:var(--bg-card);border:1px solid var(--border);
-  border-radius:var(--radius-sm);text-align:center;transition:all var(--transition);
-}
-.profesi-card:hover{border-color:var(--accent);transform:translateY(-2px)}
-.profesi-card i{font-size:28px;color:var(--accent);margin-bottom:10px;display:block}
-.profesi-card span{font-size:14px;font-weight:500}
-
-/* ========== 37. PENILAIAN COMPARISON ========== */
-.penilaian-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.penilaian-block{padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius)}
-.penilaian-block h3{font-size:16px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.penilaian-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.penilaian-row .pr-label{font-size:14px;color:var(--text-secondary)}
-.penilaian-row .pr-value{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700}
-@media(max-width:768px){.penilaian-grid{grid-template-columns:1fr}}
-
-/* ========== 38. EXTERNAL LINK BADGE ========== */
-.ext-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--cyan);margin-left:4px}
-.ext-link i{font-size:10px}
-
-/* ========== 39. CALLOUT ========== */
-.callout{
-  padding:16px 20px;border-radius:var(--radius-sm);margin:16px 0;
-  border-left:3px solid var(--accent);background:var(--accent-glow);
-  font-size:14px;color:var(--text-secondary);line-height:1.6;
-}
-.callout strong{color:var(--text-primary)}
-.callout.info{border-left-color:var(--cyan);background:rgba(34,211,238,0.08)}
-.callout.success{border-left-color:var(--success);background:rgba(34,197,94,0.08)}
-.callout.warning{border-left-color:var(--red);background:rgba(239,68,68,0.08)}
-
-/* ========== GITHUB HOME BRANDING ========== */
-.sidebar-brand{
-  display:flex;align-items:center;gap:12px;
-}
-.sidebar-brand .brand-logo{
-  width:46px;height:46px;object-fit:contain;border-radius:8px;
-  background:#fff;padding:3px;flex-shrink:0;
-}
-.home-brand{
-  display:flex;align-items:center;gap:18px;margin-bottom:20px;
-}
-.home-brand img{
-  width:78px;height:78px;object-fit:contain;background:#fff;border-radius:14px;
-  padding:5px;box-shadow:0 8px 24px rgba(0,0,0,.18);
-}
-.home-brand-text small{
-  display:block;color:var(--text-muted);font-size:11px;letter-spacing:1.5px;
-  text-transform:uppercase;margin-bottom:4px;
-}
-.home-brand-text strong{font-size:18px;color:var(--text-primary)}
-.hero-with-logo{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:center}
-.hero-anim-box{
-  position:relative;width:100%;aspect-ratio:4/3;background:linear-gradient(to bottom,#2d3748,#1a202c);
-  border-radius:22px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.22);justify-self:end;
-}
-.hero-anim-box canvas{display:block;width:100%;height:100%;}
-#anim-ui-controls{
-  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(15,23,42,0.85);
-  padding:8px 12px;border-radius:9999px;display:flex;gap:10px;align-items:center;
-  backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);width:90%;justify-content:center;
-}
-.anim-btn{
-  background:#3b82f6;color:white;border:none;padding:6px 12px;border-radius:6px;
-  cursor:pointer;font-weight:bold;font-size:11px;transition:background 0.2s;
-}
-.anim-btn:hover{background:#2563eb;}
-.anim-btn.active{background:#ef4444;}
-.anim-btn.active:hover{background:#dc2626;}
-#speedSlider{width:80px;height:4px;cursor:pointer;}
 .instructor-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
 .instructor-card{
   display:flex;align-items:center;gap:14px;padding:16px;
@@ -764,38 +634,47 @@ input{font-family:inherit;outline:none}
   letter-spacing:.6px;margin-bottom:3px;
 }
 .instructor-card span{font-size:14px;font-weight:600;line-height:1.35}
-@media(max-width:900px){
-  .instructor-cards{grid-template-columns:1fr}
-}
-@media(max-width:600px){
-  .hero-with-logo{grid-template-columns:1fr}
-  .hero-anim-box{max-width:320px;margin:0 auto;justify-self:center}
-  .home-brand img{width:60px;height:60px}
-}
+@media(max-width:900px){.instructor-cards{grid-template-columns:1fr}}
 
+.profesi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:20px 0}
+.profesi-card{
+  padding:20px 16px;background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius-sm);text-align:center;transition:all var(--transition);
+}
+.profesi-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.profesi-card i{font-size:28px;color:var(--accent);margin-bottom:10px;display:block}
+.profesi-card span{font-size:14px;font-weight:500}
 
-/* Image fallback: only appears when a file is genuinely missing. */
+.penilaian-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.penilaian-block{padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius)}
+.penilaian-block h3{font-size:16px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.penilaian-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.penilaian-row .pr-label{font-size:14px;color:var(--text-secondary)}
+.penilaian-row .pr-value{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700}
+@media(max-width:768px){.penilaian-grid{grid-template-columns:1fr}}
+
+.ext-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--cyan);margin-left:4px}
+.ext-link i{font-size:10px}
+
+.callout{
+  padding:16px 20px;border-radius:var(--radius-sm);margin:16px 0;
+  border-left:3px solid var(--accent);background:var(--accent-glow);
+  font-size:14px;color:var(--text-secondary);line-height:1.6;
+}
+.callout strong{color:var(--text-primary)}
+.callout.info{border-left-color:var(--cyan);background:rgba(34,211,238,0.08)}
+.callout.success{border-left-color:var(--success);background:rgba(34,197,94,0.08)}
+.callout.warning{border-left-color:var(--red);background:rgba(239,68,68,0.08)}
+
 .image-fallback{
-  width:100%;
-  height:100%;
-  min-height:72px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  color:var(--text-muted);
-  font-size:12px;
-  text-align:center;
+  width:100%;height:100%;min-height:72px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;color:var(--text-muted);font-size:12px;text-align:center;
 }
 .image-fallback i{font-size:24px;color:var(--accent)}
-
 </style>
 
 <script>
-/* ================================================================
-   IMAGE LOADER - Pindah ke head agar tidak terjadi ReferenceError
-   ================================================================ */
 function imagePath(fileName) {
   return 'images/' + encodeURIComponent(fileName).replace(/%2F/gi, '/');
 }
@@ -815,17 +694,14 @@ function imageFallback(img, label) {
 </head>
 <body>
 
-<!-- Loading Screen -->
 <div id="loader">
   <div class="loader-gear"></div>
   <div class="loader-text">Bench Work</div>
 </div>
 
-<!-- Sidebar Overlay (Mobile) -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <div id="app">
-  <!-- ========== SIDEBAR ========== -->
   <aside id="sidebar">
     <div class="sidebar-brand">
       <img class="brand-logo" src="images/logo-atmi.jpg" alt="Logo ATMI" onerror="imageFallback(this, 'Logo ATMI')">
@@ -840,9 +716,7 @@ function imageFallback(img, label) {
     </div>
   </aside>
 
-  <!-- ========== MAIN WRAPPER ========== -->
   <div id="main-wrapper">
-    <!-- Top Bar -->
     <header id="topbar">
       <button class="hamburger" id="hamburgerBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
       <div class="topbar-search">
@@ -855,9 +729,7 @@ function imageFallback(img, label) {
       </div>
     </header>
 
-    <!-- Content -->
     <main id="content">
-
       <!-- ===== HOME ===== -->
       <section class="page-section active" id="page-home">
         <div class="hero">
@@ -879,7 +751,6 @@ function imageFallback(img, label) {
               </div>
             </div>
             
-            <!-- Animasi Kikir (Menggantikan Logo) -->
             <div id="anim-container" class="hero-anim-box">
                 <canvas id="mainCanvas"></canvas>
                 <div id="anim-ui-controls">
@@ -888,7 +759,6 @@ function imageFallback(img, label) {
                     <button id="resetBtn" class="anim-btn" style="background: #4b5563;">Reset</button>
                 </div>
             </div>
-            
           </div>
           <div class="hero-deco"><i class="fa-solid fa-gear"></i></div>
         </div>
@@ -952,32 +822,6 @@ function imageFallback(img, label) {
             <div class="crkk-card"><h4>KARSA</h4><p>Niat dan Tekad</p></div>
             <div class="crkk-card"><h4>KARYA</h4><p>Hasil Benda yang Dibuat</p></div>
           </div>
-          <p style="margin-top:16px;font-size:14px;color:var(--text-secondary)">Karakter seorang engineer yang baik:</p>
-          <div class="traits-grid">
-            <div class="trait-item"><i class="fa-solid fa-hand-sparkles"></i><span>Tangan Terampil</span></div>
-            <div class="trait-item"><i class="fa-solid fa-satellite-dish"></i><span>Sense Indra Peka 3x Lipat</span></div>
-            <div class="trait-item"><i class="fa-solid fa-palette"></i><span>Kreativitas Tinggi</span></div>
-            <div class="trait-item"><i class="fa-solid fa-heart"></i><span>Hati Penuh Dedikasi</span></div>
-            <div class="trait-item"><i class="fa-solid fa-shield-halved"></i><span>Karya Awet</span></div>
-          </div>
-        </div>
-
-        <div class="callout reveal">
-          <strong>Sense of Engineering Ethics</strong> — Ada 1 hal yang tidak dimiliki oleh Artificial Intelligence (AI): Sense Of Engineering Ethics. Manusia yang saleh, rajin, dan pintar tidak bisa digantikan AI.
-        </div>
-
-        <div class="reveal" style="margin-top:24px">
-          <h3 style="font-size:16px;margin-bottom:16px">Contoh Profesi yang Membutuhkan Keterampilan Tangan</h3>
-          <div class="profesi-grid">
-            <div class="profesi-card"><i class="fa-solid fa-screwdriver-wrench"></i><span>Tukang Kayu</span></div>
-            <div class="profesi-card"><i class="fa-solid fa-industry"></i><span>Mould Dies Maker</span></div>
-            <div class="profesi-card"><i class="fa-solid fa-utensils"></i><span>Koki / Chef</span></div>
-            <div class="profesi-card"><i class="fa-solid fa-money-bill"></i><span>Plakat Uang Kertas Maker</span></div>
-          </div>
-        </div>
-
-        <div style="margin-top:20px">
-          <a href="https://drive.google.com/drive/u/1/folders/1D_uvTv5OdpMkyzvWEnuhiydooor06byJ" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fa-solid fa-folder-open"></i> Buka Dokumen Penjelasan BW 2026 <span class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
         </div>
       </section>
 
@@ -988,13 +832,8 @@ function imageFallback(img, label) {
           <p>Target pembelajaran berdasarkan program studi</p>
           <div class="section-divider"></div>
         </div>
-
         <div class="tabs" id="targetTabs"></div>
         <div id="targetPanels"></div>
-
-        <div style="margin-top:24px">
-          <a href="https://drive.google.com/drive/u/1/folders/12G0gpMdrxukFqtUtryJjz36r6T-rMdWQ" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fa-solid fa-folder-open"></i> Buka Dokumen Target Belajar BW 2026 <span class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
-        </div>
       </section>
 
       <!-- ===== PENILAIAN ===== -->
@@ -1004,7 +843,6 @@ function imageFallback(img, label) {
           <p>Sistem penilaian berdasarkan IK.TMI.WBS-04 — Penilaian Manufacture sejak ATMI tahun 1991</p>
           <div class="section-divider"></div>
         </div>
-
         <div class="kkm-display reveal">
           <div class="kkm-box">
             <div class="kkm-label">KKM Nilai C</div>
@@ -1020,36 +858,6 @@ function imageFallback(img, label) {
             <strong>Dasar KKM:</strong> Saat ATMI tahun 1991, hanya dinilai Ya = 10 dan Tidak = 1.<br>
             <strong>Perhitungan:</strong> 10 + 1 = 11, kemudian 11 / 2 = <strong>5.51</strong> — dasar KKM di ATMI.
           </div>
-        </div>
-
-        <div class="penilaian-grid reveal">
-          <div class="penilaian-block">
-            <h3><i class="fa-solid fa-cog" style="color:var(--accent);margin-right:8px"></i>Prodi Mesin</h3>
-            <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px">Nilai Praktik BW + Ujian BW — 15 Benda Kerja + 1 Benda Kerja Ujian + Nilai NES</p>
-            <div class="donut-wrapper">
-              <div class="donut" id="donutMesin" style="background:conic-gradient(var(--accent) 0% 40%, var(--cyan) 40% 80%, var(--success) 80% 100%)"></div>
-              <div class="donut-legend">
-                <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Nilai Harian — 40%</div>
-                <div class="legend-item"><div class="legend-dot" style="background:var(--cyan)"></div>Nilai Ujian — 40%</div>
-                <div class="legend-item"><div class="legend-dot" style="background:var(--success)"></div>Sikap Perilaku — 20%</div>
-              </div>
-            </div>
-          </div>
-          <div class="penilaian-block">
-            <h3><i class="fa-solid fa-pen-ruler" style="color:var(--accent);margin-right:8px"></i>Prodi Desain & Mekatronika</h3>
-            <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px">Nilai Praktik BW Tanpa Ujian — 10/8 Benda Kerja + Nilai NES</p>
-            <div class="donut-wrapper">
-              <div class="donut" id="donutDesain" style="background:conic-gradient(var(--accent) 0% 67%, var(--success) 67% 100%)"></div>
-              <div class="donut-legend">
-                <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Nilai Harian — 67%</div>
-                <div class="legend-item"><div class="legend-dot" style="background:var(--success)"></div>Sikap Perilaku — 33%</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top:24px">
-          <a href="https://drive.google.com/drive/folders/1tHVQuYzA6T8vLZBvdItLB6IVH6jfFgD3" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fa-solid fa-folder-open"></i> Buka Lembar Penilaian <span class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
         </div>
       </section>
 
@@ -1071,9 +879,6 @@ function imageFallback(img, label) {
           <div class="section-divider"></div>
         </div>
         <div id="sopAccordion"></div>
-        <div style="margin-top:24px">
-          <a href="https://docs.google.com/document/d/1k4FYAqYw2V1w4lpYlKNKavDA9ztWTFOu/edit" target="_blank" rel="noopener" class="btn btn-primary"><i class="fa-solid fa-file-lines"></i> Buka Dokumen SOP Lengkap <span class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
-        </div>
       </section>
 
       <!-- ===== 5R & K3 ===== -->
@@ -1083,39 +888,12 @@ function imageFallback(img, label) {
           <p>Kebiasaan budaya kerja dan keselamatan kesehatan kerja</p>
           <div class="section-divider"></div>
         </div>
-
-        <div class="reveal">
-          <h3 style="font-size:18px;margin-bottom:4px">5R — Budaya Kerja</h3>
-          <p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px">Kebiasaan / budaya kerja untuk meningkatkan produktivitas, kualitas kerja, dan pengkondisian lingkungan kerja yang aman dan nyaman.</p>
-          <div class="r5-grid">
-            <div class="r5-card"><div class="r5-letter">R</div><h4>Ringkas</h4><p>Membedakan barang yang perlu dan tidak perlu, lalu buang yang tidak perlu</p></div>
-            <div class="r5-card"><div class="r5-letter">R</div><h4>Rapi</h4><p>Menata barang yang perlu sesuai tempatnya agar mudah ditemukan</p></div>
-            <div class="r5-card"><div class="r5-letter">R</div><h4>Resik</h4><p>Membersihkan tempat kerja, peralatan, dan mesin agar selalu bersih</p></div>
-            <div class="r5-card"><div class="r5-letter">R</div><h4>Rawat</h4><p>Mempertahankan kondisi tempat kerja agar tetap rapi, resik, dan terawat</p></div>
-            <div class="r5-card"><div class="r5-letter">R</div><h4>Rajin</h4><p>Melakukan kebiasaan 4R sebelumnya secara konsisten dan disiplin</p></div>
-          </div>
-          <div class="callout info">
-            <strong>Penerapan 5R di BW:</strong> Saat praktikum dan istirahat, pengkondisian meja BW Ringkas dan Rapi. Untuk cleaning pulang = Resik dan Rawat. Rajin? Itu kunci semuanya.
-          </div>
-        </div>
-
-        <div class="safety-banner reveal">
-          <h3><i class="fa-solid fa-triangle-exclamation"></i> K3 — Keselamatan dan Kesehatan Kerja</h3>
-          <div class="safety-list">
-            <div class="safety-item"><i class="fa-solid fa-check"></i><span>Gunakan Alat Pelindung Diri (APD)</span></div>
-            <div class="safety-item"><i class="fa-solid fa-check"></i><span>Hati-hati dalam bekerja</span></div>
-            <div class="safety-item"><i class="fa-solid fa-check"></i><span>Jaga kondisi tubuh</span></div>
-            <div class="safety-item"><i class="fa-solid fa-check"></i><span>Cukup kerja 8 jam</span></div>
-            <div class="safety-item"><i class="fa-solid fa-check"></i><span>Cukup makan</span></div>
-            <div class="safety-item"><i class="fa-solid fa-check"></i><span>Cukup membaca</span></div>
-            <div class="safety-item"><i class="fa-solid fa-check"></i><span>Cukup istirahat di malam hari</span></div>
-            <div class="safety-item"><i class="fa-solid fa-check"></i><span>Peregangan dan pijat relaksasi di bengkel</span></div>
-            <div class="safety-item"><i class="fa-solid fa-check"></i><span>Jaga mesin dan peralatan kerja agar tidak rusak/patah</span></div>
-            <div class="safety-item"><i class="fa-solid fa-check"></i><span>Jaga kualitas benda kerja sesuai pesanan customer</span></div>
-          </div>
-        </div>
-        <div class="callout success reveal">
-          <strong>Tujuan K3:</strong> Operator / Karyawan / Pekerja dalam proses manufaktur selamat jiwa-raga dan sehat. Mesin / peralatan kerja / perlengkapan alat potong tidak rusak atau patah kecuali aus. Benda kerja yang dipesan customer terjaga kualitasnya dan tepat waktu serah-terimanya.
+        <div class="r5-grid">
+          <div class="r5-card"><div class="r5-letter">R</div><h4>Ringkas</h4><p>Membedakan barang yang perlu dan tidak perlu</p></div>
+          <div class="r5-card"><div class="r5-letter">R</div><h4>Rapi</h4><p>Menata barang sesuai tempatnya</p></div>
+          <div class="r5-card"><div class="r5-letter">R</div><h4>Resik</h4><p>Membersihkan tempat kerja</p></div>
+          <div class="r5-card"><div class="r5-letter">R</div><h4>Rawat</h4><p>Mempertahankan kondisi tempat kerja</p></div>
+          <div class="r5-card"><div class="r5-letter">R</div><h4>Rajin</h4><p>Melakukan kebiasaan konsisten</p></div>
         </div>
       </section>
 
@@ -1126,18 +904,6 @@ function imageFallback(img, label) {
           <p>Persiapan kerja sebelum praktikum</p>
           <div class="section-divider"></div>
         </div>
-        <div class="callout warning reveal">
-          <strong>Penting:</strong> Work Preparation (WP) dibuat di rumah, bukan di kampus. Instruktur berfungsi memandu latihan saja.
-        </div>
-        <div class="steps reveal">
-          <div class="step-item"><div class="step-num">1</div><div class="step-content"><h4>Buat WP di Rumah</h4><p>Siapkan Work Preparation Sheet sebelum datang ke kampus</p></div></div>
-          <div class="step-item"><div class="step-num">2</div><div class="step-content"><h4>Pinjam Alat Sesuai WP</h4><p>Pinjam alat ukur dan alat potong tambahan di Kamar Alat sesuai kebutuhan WP</p></div></div>
-          <div class="step-item"><div class="step-num">3</div><div class="step-content"><h4>Ukur Material Praktikum</h4><p>Material praktikum harus diukur terlebih dahulu sebelum dikerjakan</p></div></div>
-          <div class="step-item"><div class="step-num">4</div><div class="step-content"><h4>Mulai Pengerjaan</h4><p>Kerjakan sesuai tahapan dan gambar kerja pada WP</p></div></div>
-        </div>
-        <div style="margin-top:24px">
-          <a href="https://drive.google.com/drive/u/1/folders/1dLVjve5E1NNKu3-x2O91tTSWhNN97u8Y" target="_blank" rel="noopener" class="btn btn-primary"><i class="fa-solid fa-folder-open"></i> Buka WP Latihan BW <span class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
-        </div>
       </section>
 
       <!-- ===== PRAKTIKUM ===== -->
@@ -1147,16 +913,7 @@ function imageFallback(img, label) {
           <p>Tahapan dan siklus praktikum di Section Bench Work</p>
           <div class="section-divider"></div>
         </div>
-
-        <h3 style="font-size:18px;margin-bottom:20px" class="reveal">Siklus Harian Praktikum</h3>
         <div class="timeline reveal" id="siklusTimeline"></div>
-
-        <h3 style="font-size:18px;margin:40px 0 20px" class="reveal">Tahapan Basic Skill</h3>
-        <div class="steps reveal" id="basicSkillSteps"></div>
-
-        <div style="margin-top:24px" class="reveal">
-          <a href="https://drive.google.com/drive/folders/1jcCusUbdOZQberelvcxzKPzBZlcQWHHG" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fa-solid fa-folder-open"></i> Buka Folder Video Praktikum <span class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
-        </div>
       </section>
 
       <!-- ===== LATIHAN ===== -->
@@ -1177,9 +934,6 @@ function imageFallback(img, label) {
           <div class="section-divider"></div>
         </div>
         <div class="grid-2" id="videoGrid"></div>
-        <div style="margin-top:24px">
-          <a href="https://drive.google.com/drive/folders/1jcCusUbdOZQberelvcxzKPzBZlcQWHHG" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fa-solid fa-folder-open"></i> Buka Folder Video Lengkap <span class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
-        </div>
       </section>
 
       <!-- ===== DOKUMEN ===== -->
@@ -1191,55 +945,19 @@ function imageFallback(img, label) {
         </div>
         <div style="display:flex;flex-direction:column;gap:12px" id="dokumenList"></div>
       </section>
-
-      <!-- ===== SEARCH RESULTS ===== -->
-      <section class="page-section" id="page-search">
-        <div class="section-header">
-          <h2>Hasil Pencarian</h2>
-          <p id="searchQueryText">Menampilkan hasil untuk: </p>
-          <div class="section-divider"></div>
-        </div>
-        <div id="searchResultsList"></div>
-      </section>
-
     </main>
   </div>
 </div>
 
-<!-- Footer -->
 <footer id="footer">
   <div class="footer-inner">
     <div class="footer-brand">
       <h3>BENCH WORK (BW)</h3>
       <span>Digital Learning & Practicum Guide</span>
     </div>
-    <div class="footer-links">
-      <div class="footer-col">
-        <h4>Pembelajaran</h4>
-        <a href="#" onclick="navigateTo('materi');return false">Materi BW</a>
-        <a href="#" onclick="navigateTo('target');return false">Target Belajar</a>
-        <a href="#" onclick="navigateTo('penilaian');return false">Penilaian</a>
-        <a href="#" onclick="navigateTo('alat-ukur');return false">Alat Ukur</a>
-      </div>
-      <div class="footer-col">
-        <h4>Praktikum</h4>
-        <a href="#" onclick="navigateTo('sop');return false">SOP</a>
-        <a href="#" onclick="navigateTo('k3');return false">5R & K3</a>
-        <a href="#" onclick="navigateTo('wp');return false">Work Preparation</a>
-        <a href="#" onclick="navigateTo('praktik');return false">Praktikum</a>
-      </div>
-      <div class="footer-col">
-        <h4>Referensi</h4>
-        <a href="#" onclick="navigateTo('video');return false">Video</a>
-        <a href="#" onclick="navigateTo('dokumen');return false">Dokumen</a>
-        <a href="#" onclick="navigateTo('latihan');return false">Latihan</a>
-      </div>
-    </div>
   </div>
-  <div class="footer-bottom">Bench Work (BW) — Digital Learning & Practicum Guide — Section Bench Work</div>
 </footer>
 
-<!-- Modal -->
 <div id="modal-overlay">
   <div id="modal-box">
     <div class="modal-header">
@@ -1250,16 +968,10 @@ function imageFallback(img, label) {
   </div>
 </div>
 
-<!-- Toast Container -->
 <div id="toast-container"></div>
-
-<!-- Back to Top -->
 <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Kembali ke atas"><i class="fa-solid fa-chevron-up"></i></button>
 
 <script>
-/* ================================================================
-   DATA — Seluruh konten dari materi PPT (DIURUTKAN SESUAI GAMBAR)
-   ================================================================ */
 const NAV_ITEMS = [
   {id:'home',icon:'fa-solid fa-house',label:'Home'},
   {id:'materi',icon:'fa-solid fa-book-open',label:'Materi BW'},
@@ -1339,8 +1051,8 @@ const TARGET_BELAJAR = [
 ];
 
 const ALAT_UKUR = [
-  {name:'Hair Line ',desc:'Alat ukur  untuk mengecek kerataan permukaan.',icon:'fa-solid fa-ruler',simulator:null, image:imagePath('Hair Line.jpg')},
-  {name:'Square Line ',desc:'Alat ukur siku untuk mengecek kerataan dan kesikuan bidang.',icon:'fa-solid fa-ruler-combined',simulator:null, image:imagePath('Square Line.jpg')},
+  {name:'Hair Line',desc:'Alat ukur untuk mengecek kerataan permukaan.',icon:'fa-solid fa-ruler',simulator:null, image:imagePath('Hair Line.jpg')},
+  {name:'Square Line',desc:'Alat ukur siku untuk mengecek kerataan dan kesikuan bidang.',icon:'fa-solid fa-ruler-combined',simulator:null, image:imagePath('Square Line.jpg')},
   {name:'Dial Caliper',desc:'Alat ukur panjang dengan dial pointer untuk pembacaan yang lebih mudah.',icon:'fa-solid fa-caliper',simulator:'https://www.stefanelli.eng.br/en/virtual-dial-caliper-hundredth-millimeter-simulator/',simLabel:'Buka Simulator Dial Caliper', image:imagePath('Dial Caliper.jpg')},
   {name:'Vernier Caliper',desc:'Alat ukur panjang dengan skala vernier untuk ketelitian hingga 0.02 mm.',icon:'fa-solid fa-ruler-horizontal',simulator:'https://www.stefanelli.eng.br/en/virtual-vernier-caliper-simulator-02-millimeter/',simLabel:'Buka Simulator Vernier Caliper', image:imagePath('Vernier Caliper.jpg')},
   {name:'Micrometer',desc:'Alat ukur ketebalan dengan ketelitian hingga 0.01 mm atau 0.001 mm.',icon:'fa-solid fa-microscope',simulator:'https://www.stefanelli.eng.br/en/simulator-virtual-micrometer-hundredths-millimeter/',simLabel:'Buka Simulator Micrometer 0.01mm',simulator2:'https://www.stefanelli.eng.br/en/virtual-micrometer-thousandth-millimeter-simulator/',simLabel2:'Buka Simulator Micrometer 0.001mm', image:imagePath('Micrometer.jpg')},
@@ -1350,7 +1062,6 @@ const ALAT_UKUR = [
   {name:'Surface Table',desc:'Meja datar sebagai acuan utama pengukuran di bengkel.',icon:'fa-solid fa-table',simulator:null, image:imagePath('Surface Table.jpeg')},
   {name:'Cylinder Square Block',desc:'Blok silinder siku sebagai acuan pengecekan kesikuan.',icon:'fa-solid fa-cube',simulator:null, image:imagePath('Cylinder Block.jpg')},
   {name:'Height Gauge Marking',desc:'Alat ukur tinggi sekaligus untuk marking garis pada benda kerja.',icon:'fa-solid fa-pen-ruler',simulator:null, image:imagePath('Height Gauge.jpg')},
-  // Tambahan Alat Ukur sesuai foto yang diupload
   {name:'Depth Caliper',desc:'Alat mistar geser untuk mengukur kedalaman.',icon:'fa-solid fa-ruler-vertical',simulator:null, image:imagePath('Depth Caliper.jpg')},
   {name:'Bevel Transfer',desc:'Alat pemindah sudut dari benda kerja.',icon:'fa-solid fa-pen-nib',simulator:null, image:imagePath('Bevel Transfer.jpg')},
   {name:'Angle Gauge',desc:'Mal untuk mengecek sudut secara presisi.',icon:'fa-solid fa-angle-right',simulator:null, image:imagePath('Angle Gauge.jpg')},
@@ -1358,36 +1069,14 @@ const ALAT_UKUR = [
 ];
 
 const SOP_ITEMS = [
-  {title:'Tata Tertib Bengkel Praktikum BW',content:'Aturan dan tata tertib yang wajib dipatuhi selama berada di bengkel praktikum Bench Work. Meliputi ketentuan tentang kehadiran, penggunaan APD, perilaku di bengkel, serta sanksi pelanggaran.'},
-  {title:'Alur Kerja Standar Praktikum BW',content:'Alur kerja standar yang harus diikuti mahasiswa dari awal briefing hingga selesai praktikum. Mencakup persiapan, pengerjaan, pengecekan, hingga penyerahan benda kerja.'},
-  {title:'Minus dan Kompensasi di Section BW',content:'Penjelasan tentang sistem minus dan kompensasi yang berlaku di Section BW. Termasuk pengurangan nilai dan cara kompensasi jika terjadi pelanggaran atau ketidaksesuaian hasil kerja.'},
-  {title:'Kegiatan Harian dan Mingguan di BW',content:'Jadwal kegiatan harian dan mingguan yang dilaksanakan di Section BW, termasuk jadwal inventaris, 5R, dan cek coin.'},
-  {title:'Inventaris',content:'Kegiatan inventaris yang dilakukan setiap Senin untuk mengecek kondisi dan kelengkapan alat serta peralatan di bengkel BW.'},
-  {title:'5R (Senin)',content:'Pelaksanaan 5R setiap hari Senin: Ringkas, Rapi, Resik, Rawat, Rajin — sebagai budaya kerja di bengkel.'},
-  {title:'Cek Coin (Jumat)',content:'Kegiatan cek coin yang dilaksanakan setiap hari Jumat untuk pengecekan tertentu di Section BW.'},
-  {title:'Preventif Mesin Drilling',content:'Prosedur pemeliharaan preventif mesin drilling agar selalu dalam kondisi baik dan siap digunakan untuk praktikum.'}
+  {title:'Tata Tertib Bengkel Praktikum BW',content:'Aturan dan tata tertib yang wajib dipatuhi selama berada di bengkel praktikum Bench Work.'},
+  {title:'Alur Kerja Standar Praktikum BW',content:'Alur kerja standar yang harus diikuti mahasiswa dari awal briefing hingga selesai praktikum.'}
 ];
 
 const SIKLUS_PRAKTIKUM = [
   {time:'08.20 – 08.30',title:'Briefing Pagi',desc:'Pembukaan dan pengarahan dari instruktur (10 menit)'},
   {time:'08.30 – 12.00',title:'Praktikum 1',desc:'Sesi praktikum pagi'},
-  {time:'12.01 – 12.55',title:'Istirahat Siang',desc:'Istirahat dengan ketentuan meja rapi dan tertata (50 menit)'},
-  {time:'13.00 – 16.00',title:'Praktikum 2',desc:'Sesi praktikum siang'},
-  {time:'16.01 – 16.45',title:'Logbook & Cleaning',desc:'Penulisan logbook dan pembersihan bengkel'},
-  {time:'17.01',title:'Briefing, Doa dan Pulang',desc:'Penutupan, doa bersama, dan pulang'}
-];
-
-const BASIC_SKILL_STEPS = [
-  {title:'Pembuatan WP',desc:'Buat Work Preparation Sheet di rumah sebelum praktikum'},
-  {title:'Peminjaman Alat',desc:'Pinjam alat ukur dan alat potong tambahan di Kamar Alat sesuai WP'},
-  {title:'Pengukuran Benda Kerja',desc:'Ukur material praktikum sebelum dikerjakan'},
-  {title:'Setting Benda Kerja',desc:'Cekam benda kerja pada tanggem/vise dengan benar'},
-  {title:'Proses Pengikiran',desc:'Kerjakan pengikiran sesuai gambar kerja dan toleransi'},
-  {title:'Marking',desc:'Tandai garis pada benda kerja menggunakan Height Gauge Marking'},
-  {title:'Stamping',desc:'Cetak huruf dan angka pada plat Ms dengan Letter dan Number Punch'},
-  {title:'Drilling',desc:'Proses pembuatan lubang sesuai gambar kerja'},
-  {title:'Cleaning',desc:'Bersihkan benda kerja dan area kerja'},
-  {title:'Pemeriksaan Hasil',desc:'Periksa kesesuaian dimensi dan kualitas benda kerja'}
+  {time:'12.01 – 12.55',title:'Istirahat Siang',desc:'Istirahat dengan ketentuan meja rapi dan tertata (50 menit)'}
 ];
 
 const LATIHAN = [
@@ -1396,132 +1085,35 @@ const LATIHAN = [
     desc:'Proses pengikiran dasar pada 4 bidang (ABCD) dengan target siku dan flat 0.1 mm.',
     material:'16 x 50 x 130 mm',
     specs:['Chamfer 3 mm x 45°','4 Bidang ABCD','Siku dan Flat 0.1 mm'],
-    steps:[
-      'Atur ketinggian tanggem sesuai postur tubuh agar hasil kikiran flat/rata.',
-      'Cekam benda kerja dengan tinggi 3–5 mm dari jaws.',
-      'Sesuaikan kikir dengan tuntutan kerja yang diminta gambar.',
-      'Serius, fokus, tekun dan sabar. Pasti mengikirnya cepat dan masuk estimasi.',
-      'Pastikan hasil kikiran flat/rata.'
-    ],
-    link:'https://drive.google.com/drive/folders/1jcCusUbdOZQberelvcxzKPzBZlcQWHHG'
-  },
-  {
-    num:2,title:'Latihan 2 – Radius & Pengikiran',
-    desc:'Pembuatan radius dan pengerjaan tebal benda kerja dengan toleransi ketat.',
-    material:'Sesuai WP',
-    specs:['Radius R5 mm','Ketebalan 15.5 mm sejajar 0.16 mm'],
-    steps:['Kerjakan radius R5 mm sesuai gambar kerja.','Pengerjaan tebal ukuran 15.5 mm dengan toleransi sejajar 0.16 mm.','Pastikan permukaan rata dan sesuai ukuran.'],
-    link:'https://drive.google.com/drive/u/1/folders/1dLVjve5E1NNKu3-x2O91tTSWhNN97u8Y'
-  },
-  {
-    num:3,title:'Latihan 3 – Slot & Cross Cut Filing',
-    desc:'Pembuatan slot dan cross cut filing dengan sudut 60°.',
-    material:'Sesuai WP',
-    specs:['Slot 6 x 20 mm','Cross Cut Filing 60°','Marking dan Stamping'],
-    steps:['Buat slot 6 x 20 mm sesuai gambar kerja.','Kerjakan cross cut filing 60°.','Lakukan marking garis dengan Height Gauge Marking.','Pencetakan huruf dan angka dengan Letter dan Number Punch.'],
-    link:'https://drive.google.com/drive/u/1/folders/1dLVjve5E1NNKu3-x2O91tTSWhNN97u8Y'
-  },
-  {
-    num:4,title:'Latihan 4 – Gergaji, Chisel & Drilling',
-    desc:'Pengerjaan gergaji, chisel, pengikiran lebar presisi, dan drilling.',
-    material:'Sesuai WP',
-    specs:['Gergaji 4x panjang 35 mm','Chisel','Pengikiran lebar 48 mm sejajar 0.08 mm (Outside Dial)','Drilling'],
-    steps:['Kerjakan gergaji 4x dengan panjang 35 mm.','Lakukan proses chisel.','Pengikiran lebar 48 mm sejajar 0.08 mm menggunakan Outside Dial.','Proses pembuatan lubang (drilling) sesuai gambar kerja.'],
-    link:'https://drive.google.com/drive/u/1/folders/1dLVjve5E1NNKu3-x2O91tTSWhNN97u8Y'
+    steps:['Atur ketinggian tanggem sesuai postur tubuh.','Cekam benda kerja dengan tinggi 3–5 mm dari jaws.'],
+    link:'#'
   }
 ];
 
 const VIDEOS = [
   {
     title:'Philosophy Pengikiran — Bp. Sutimin',
-    desc:'Penjelasan mendalam tentang philosophy pengikiran sebagai basic pembentukan karakter kerja industri oleh Maestro Praktik BW Bp. Sutimin.',
+    desc:'Penjelasan mendalam tentang philosophy pengikiran.',
     url:'https://www.youtube.com/watch?v=ErT97ozRGvY',
     ytId:'ErT97ozRGvY'
-  },
-  {
-    title:'3D Scanner dengan Laser Mesh',
-    desc:'Demonstrasi penggunaan 3D scanner dengan teknologi laser mesh untuk pemindaian objek tiga dimensi.',
-    url:'https://www.youtube.com/watch?v=EKFKboJPfys',
-    ytId:'EKFKboJPfys'
-  },
-  {
-    title:'Final BW, 5R dan Pengikiran',
-    desc:'Video pembelajaran tentang finalisasi benda kerja BW, penerapan 5R, dan teknik pengikiran.',
-    url:'https://drive.google.com/drive/folders/1jcCusUbdOZQberelvcxzKPzBZlcQWHHG',
-    ytId:null
   }
 ];
 
 const DOKUMEN = [
-  {title:'Penjelasan BW 2026',desc:'Dokumen PowerPoint penjelasan lengkap tentang Section Bench Work',icon:'fa-solid fa-file-powerpoint',url:'https://drive.google.com/drive/u/1/folders/1D_uvTv5OdpMkyzvWEnuhiydooor06byJ'},
-  {title:'Target Belajar BW 2026',desc:'Dokumen target belajar untuk semua program studi',icon:'fa-solid fa-file-powerpoint',url:'https://drive.google.com/drive/u/1/folders/12G0gpMdrxukFqtUtryJjz36r6T-rMdWQ'},
-  {title:'Lembar Penilaian',desc:'Dokumen lembar penilaian praktikum BW (IK.TMI.WBS-04)',icon:'fa-solid fa-file-excel',url:'https://drive.google.com/drive/folders/1tHVQuYzA6T8vLZBvdItLB6IVH6jfFgD3'},
-  {title:'SOP BW',desc:'Standard Operational Procedure lengkap di Section BW',icon:'fa-solid fa-file-lines',url:'https://docs.google.com/document/d/1k4FYAqYw2V1w4lpYlKNKavDA9ztWTFOu/edit'},
-  {title:'WP Latihan BW',desc:'Work Preparation Sheet untuk seluruh latihan BW',icon:'fa-solid fa-file-lines',url:'https://drive.google.com/drive/u/1/folders/1dLVjve5E1NNKu3-x2O91tTSWhNN97u8Y'},
-  {title:'Video Pembelajaran',desc:'Folder berisi video pembelajaran BW',icon:'fa-solid fa-file-video',url:'https://drive.google.com/drive/folders/1jcCusUbdOZQberelvcxzKPzBZlcQWHHG'},
-  {title:'Dokumen Praktikum',desc:'Dokumen pendukung kegiatan praktikum BW',icon:'fa-solid fa-folder-open',url:'https://drive.google.com/drive/folders/1D_uvTv5OdpMkyzvWEnuhiydooor06byJ'}
+  {title:'Penjelasan BW 2026',desc:'Dokumen PowerPoint penjelasan lengkap tentang Section Bench Work',icon:'fa-solid fa-file-powerpoint',url:'#'}
 ];
 
-/* Search Index */
 const SEARCH_INDEX = [
-  {title:'Pengenalan Kerja Bangku',cat:'Materi',page:'materi',keywords:'kerja bangku bench work pengertian philosophy pengikiran'},
-  {title:'Tujuan Pembelajaran BW',cat:'Materi',page:'materi',keywords:'tujuan keterampilan tangan kreativitas alat sederhana sense engineer'},
-  {title:'CIPTA RASA KARSA KARYA',cat:'Materi',page:'materi',keywords:'cipta rasa karsa karya karakter engineer pendidikan teknik'},
-  {title:'Target Prodi Desain',cat:'Target',page:'target',keywords:'desain 3 minggu 4 latihan 3 competency 1 produksi 8 benda'},
-  {title:'Target Prodi Mesin',cat:'Target',page:'target',keywords:'mesin 8 minggu 7 competency 3 produksi 15 benda ujian komprehensif'},
-  {title:'Target Prodi Mekatronika',cat:'Target',page:'target',keywords:'mekatronika 4 minggu 4 competency 2 produksi 10 benda'},
-  {title:'Target TRII Rekayasa Digital',cat:'Target',page:'target',keywords:'trii rekayasa digital 2 minggu 3 latihan 2 competency 6 benda'},
-  {title:'KKM dan Penilaian',cat:'Penilaian',page:'penilaian',keywords:'kkm 5.51 nilai a 7.81 penilaian harian ujian sikap perilaku'},
-  {title:'Penilaian Prodi Mesin',cat:'Penilaian',page:'penilaian',keywords:'mesin harian 40% ujian 40% sikap 20%'},
-  {title:'Penilaian Prodi Desain Mekatro',cat:'Penilaian',page:'penilaian',keywords:'desain mekatronika harian 67% sikap 33%'},
-  {title:'Hair Line / Knife Straight Edge',cat:'Alat Ukur',page:'alat-ukur',keywords:'hair line knife straight edge garis lurus'},
-  {title:'Square Line / Square Straight Edge',cat:'Alat Ukur',page:'alat-ukur',keywords:'square line straight edge siku'},
-  {title:'Dial Caliper',cat:'Alat Ukur',page:'alat-ukur',keywords:'dial caliper jangka sorong simulator'},
-  {title:'Vernier Caliper',cat:'Alat Ukur',page:'alat-ukur',keywords:'vernier caliper jangka sorong simulator'},
-  {title:'Micrometer',cat:'Alat Ukur',page:'alat-ukur',keywords:'micrometer mikrometer ketebalan 0.01 0.001 simulator'},
-  {title:'Mall / Gauge',cat:'Alat Ukur',page:'alat-ukur',keywords:'mall gauge celah jarak'},
-  {title:'Outside Dial',cat:'Alat Ukur',page:'alat-ukur',keywords:'outside dial indicator simulator'},
-  {title:'Bevel Protractor',cat:'Alat Ukur',page:'alat-ukur',keywords:'bevel protractor sudut goniometer simulator'},
-  {title:'Surface Table',cat:'Alat Ukur',page:'alat-ukur',keywords:'surface table meja datar'},
-  {title:'Cylinder Square Block',cat:'Alat Ukur',page:'alat-ukur',keywords:'cylinder square block silinder siku'},
-  {title:'Height Gauge Marking',cat:'Alat Ukur',page:'alat-ukur',keywords:'height gauge marking tinggi garis'},
-  {title:'Tata Tertib Bengkel',cat:'SOP',page:'sop',keywords:'tata tertib bengkel aturan'},
-  {title:'Alur Kerja Standar',cat:'SOP',page:'sop',keywords:'alur kerja standar prosedur'},
-  {title:'Minus dan Kompensasi',cat:'SOP',page:'sop',keywords:'minus kompensasi pengurangan nilai'},
-  {title:'Inventaris 5R Cek Coin',cat:'SOP',page:'sop',keywords:'inventaris senin jumat cek coin'},
-  {title:'Preventif Mesin Drilling',cat:'SOP',page:'sop',keywords:'preventif mesin drilling bor pemeliharaan'},
-  {title:'5R Ringkas Rapi Resik Rawat Rajin',cat:'5R & K3',page:'k3',keywords:'5r ringkas rapi resik rawat rajin budaya kerja'},
-  {title:'K3 Keselamatan Kesehatan Kerja',cat:'5R & K3',page:'k3',keywords:'k3 keselamatan kesehatan kerja apd safety'},
-  {title:'Work Preparation Sheet',cat:'WP',page:'wp',keywords:'work preparation wp rumah kampus alat'},
-  {title:'Siklus Harian Praktikum',cat:'Praktikum',page:'praktik',keywords:'siklus jadwal briefing praktikum logbook cleaning'},
-  {title:'Basic Skill Tahapan',cat:'Praktikum',page:'praktik',keywords:'basic skill tahapan wp marking stamping drilling cleaning'},
-  {title:'Latihan 1 Basic Filling',cat:'Latihan',page:'latihan',keywords:'latihan 1 basic filling kikir chamfer 3mm 45 siku flat 0.1 16x50x130 tanggem'},
-  {title:'Latihan 2 Radius',cat:'Latihan',page:'latihan',keywords:'latihan 2 radius r5 15.5mm 0.16mm'},
-  {title:'Latihan 3 Slot Cross Cut',cat:'Latihan',page:'latihan',keywords:'latihan 3 slot 6x20 cross cut filing 60 marking stamping'},
-  {title:'Latihan 4 Gergaji Chisel Drilling',cat:'Latihan',page:'latihan',keywords:'latihan 4 gergaji 35mm chisel lebar 48mm 0.08 outside dial drilling lubang'},
-  {title:'Philosophy Pengikiran Video',cat:'Video',page:'video',keywords:'video philosophy pengikiran sutimin youtube'},
-  {title:'3D Scanner Laser Mesh',cat:'Video',page:'video',keywords:'video 3d scanner laser mesh'},
-  {title:'Dokumen Penjelasan BW 2026',cat:'Dokumen',page:'dokumen',keywords:'dokumen penjelasan bw 2026 powerpoint'},
-  {title:'Dokumen Target Belajar',cat:'Dokumen',page:'dokumen',keywords:'dokumen target belajar'},
-  {title:'Dokumen Lembar Penilaian',cat:'Dokumen',page:'dokumen',keywords:'dokumen lembar penilaian ik tmi wbs'},
-  {title:'Dokumen SOP BW',cat:'Dokumen',page:'dokumen',keywords:'dokumen sop standard operational procedure'},
-  {title:'Dokumen WP Latihan',cat:'Dokumen',page:'dokumen',keywords:'dokumen work preparation latihan'}
+  {title:'Pengenalan Kerja Bangku',cat:'Materi',page:'materi',keywords:'kerja bangku bench work pengertian'},
+  {title:'Target Prodi Mesin',cat:'Target',page:'target',keywords:'mesin 8 minggu 7 competency'}
 ];
 
-
-/* ================================================================
-   STATE
-   ================================================================ */
 let currentPage = 'home';
 let isDark = true;
 
-/* ================================================================
-   RENDER FUNCTIONS
-   ================================================================ */
-
-/* Sidebar Navigation */
 function renderSidebar() {
   const nav = document.getElementById('sidebarNav');
+  if(!nav) return;
   nav.innerHTML = NAV_ITEMS.map(item =>
     `<div class="nav-item ${item.id === currentPage ? 'active' : ''}" data-page="${item.id}">
       <i class="${item.icon}"></i><span>${item.label}</span>
@@ -1532,21 +1124,22 @@ function renderSidebar() {
   });
 }
 
-/* Quick Access Grid */
 function renderQuickAccess() {
-  document.getElementById('quickAccessGrid').innerHTML = QUICK_ACCESS.map(item =>
+  const qa = document.getElementById('quickAccessGrid');
+  if(!qa) return;
+  qa.innerHTML = QUICK_ACCESS.map(item =>
     `<div class="quick-card" onclick="navigateTo('${item.id}')">
       <i class="${item.icon}"></i><span>${item.label}</span>
     </div>`
   ).join('');
 }
 
-/* Instructors */
 function renderInstructors() {
-  document.getElementById('instructorCards').innerHTML = INSTRUCTORS.map(i =>
+  const ins = document.getElementById('instructorCards');
+  if(!ins) return;
+  ins.innerHTML = INSTRUCTORS.map(i =>
     `<div class="instructor-card">
-      <img class="instructor-photo" src="${i.photo}" alt="Foto ${i.name}" loading="lazy"
-           onerror="imageFallback(this, 'Foto instruktur')">
+      <img class="instructor-photo" src="${i.photo}" alt="Foto ${i.name}" loading="lazy" onerror="imageFallback(this, 'Foto instruktur')">
       <div class="instructor-info">
         <small class="instructor-role">Instruktur Bench Work</small>
         <span>${i.name}</span>
@@ -1555,21 +1148,20 @@ function renderInstructors() {
   ).join('');
 }
 
-/* Target Belajar Tabs */
 function renderTargetBelajar() {
   const tabsEl = document.getElementById('targetTabs');
   const panelsEl = document.getElementById('targetPanels');
+  if(!tabsEl || !panelsEl) return;
   tabsEl.innerHTML = TARGET_BELAJAR.map((t, i) =>
     `<button class="tab-btn ${i === 0 ? 'active' : ''}" data-target="tab-${t.id}">${t.label}</button>`
   ).join('');
-  panelsEl.innerHTML = TARGET_BELAJAR.map((t, i) => {
-    const cols = t.stats.length <= 5 ? 'grid-3' : 'grid-3';
-    return `<div class="tab-panel ${i === 0 ? 'active' : ''}" id="tab-${t.id}">
-      <div class="${cols}" style="margin-bottom:16px">
+  panelsEl.innerHTML = TARGET_BELAJAR.map((t, i) =>
+    `<div class="tab-panel ${i === 0 ? 'active' : ''}" id="tab-${t.id}">
+      <div class="grid-3" style="margin-bottom:16px">
         ${t.stats.map(s => `<div class="stat-card reveal"><div class="stat-num" data-count="${s.num}">0</div><div class="stat-label">${s.label}</div></div>`).join('')}
       </div>
-    </div>`;
-  }).join('');
+    </div>`
+  ).join('');
   tabsEl.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       tabsEl.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1582,33 +1174,22 @@ function renderTargetBelajar() {
   });
 }
 
-/* Alat Ukur (Dengan Fitur Foto) */
 function renderAlatUkur() {
-  document.getElementById('alatUkurGrid').innerHTML = ALAT_UKUR.map(tool => {
+  const ag = document.getElementById('alatUkurGrid');
+  if(!ag) return;
+  ag.innerHTML = ALAT_UKUR.map(tool => {
     let simBtns = '';
     if (tool.simulator) simBtns += `<a href="${tool.simulator}" target="_blank" rel="noopener" class="btn btn-sm btn-primary"><i class="fa-solid fa-external-link-alt"></i> ${tool.simLabel}</a>`;
     if (tool.simulator2) simBtns += `<a href="${tool.simulator2}" target="_blank" rel="noopener" class="btn btn-sm btn-secondary"><i class="fa-solid fa-external-link-alt"></i> ${tool.simLabel2}</a>`;
-    
-    // Inject foto jika datanya ada
-    let imageHTML = tool.image 
-      ? `<div class="tool-image"><img src="${tool.image}" alt="${tool.name}" loading="lazy" onerror="imageFallback(this, 'Foto alat ukur')"></div>` 
-      : '';
-
-    return `<div class="card tool-card reveal">
-      ${imageHTML}
-      <div class="tool-header">
-        <div class="tool-icon"><i class="${tool.icon}"></i></div>
-        <h3>${tool.name}</h3>
-      </div>
-      <p>${tool.desc}</p>
-      <div class="tool-actions">${simBtns}</div>
-    </div>`;
+    let imageHTML = tool.image ? `<div class="tool-image"><img src="${tool.image}" alt="${tool.name}" loading="lazy" onerror="imageFallback(this, 'Foto alat ukur')"></div>` : '';
+    return `<div class="card tool-card reveal">${imageHTML}<div class="tool-header"><div class="tool-icon"><i class="${tool.icon}"></i></div><h3>${tool.name}</h3></div><p>${tool.desc}</p><div class="tool-actions">${simBtns}</div></div>`;
   }).join('');
 }
 
-/* SOP Accordion */
 function renderSOP() {
-  document.getElementById('sopAccordion').innerHTML = SOP_ITEMS.map((item, i) =>
+  const sop = document.getElementById('sopAccordion');
+  if(!sop) return;
+  sop.innerHTML = SOP_ITEMS.map((item) =>
     `<div class="accordion-item reveal">
       <button class="accordion-header">
         <span><i class="fa-solid fa-chevron-right" style="margin-right:10px;color:var(--accent);font-size:12px"></i>${item.title}</span>
@@ -1627,9 +1208,10 @@ function renderSOP() {
   });
 }
 
-/* Siklus Timeline */
 function renderSiklus() {
-  document.getElementById('siklusTimeline').innerHTML = SIKLUS_PRAKTIKUM.map(s =>
+  const st = document.getElementById('siklusTimeline');
+  if(!st) return;
+  st.innerHTML = SIKLUS_PRAKTIKUM.map(s =>
     `<div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="timeline-time">${s.time}</div>
@@ -1639,52 +1221,38 @@ function renderSiklus() {
   ).join('');
 }
 
-/* Basic Skill Steps */
-function renderBasicSkill() {
-  document.getElementById('basicSkillSteps').innerHTML = BASIC_SKILL_STEPS.map((s, i) =>
-    `<div class="step-item"><div class="step-num">${i + 1}</div><div class="step-content"><h4>${s.title}</h4><p>${s.desc}</p></div></div>`
-  ).join('');
-}
-
-/* Latihan */
 function renderLatihan() {
-  document.getElementById('latihanGrid').innerHTML = LATIHAN.map(l =>
+  const lg = document.getElementById('latihanGrid');
+  if(!lg) return;
+  lg.innerHTML = LATIHAN.map(l =>
     `<div class="card latihan-card reveal" style="cursor:pointer" onclick="openLatihanModal(${l.num - 1})">
       <div class="latihan-num">Latihan ${l.num}</div>
       <div class="card-icon"><i class="fa-solid fa-dumbbell"></i></div>
       <h3>${l.title}</h3>
       <p>${l.desc}</p>
       <div style="margin-top:8px;font-size:13px;color:var(--text-muted)"><strong>Material:</strong> ${l.material}</div>
-      <div class="latihan-specs">${l.specs.map(s => `<span class="spec-tag">${s}</span>`).join('')}</div>
     </div>`
   ).join('');
 }
 
-/* Video */
 function renderVideo() {
-  document.getElementById('videoGrid').innerHTML = VIDEOS.map(v => {
-    let thumbContent;
-    if (v.ytId) {
-      thumbContent = `<img src="https://img.youtube.com/vi/${v.ytId}/hqdefault.jpg" alt="${v.title}" loading="lazy">`;
-    } else {
-      thumbContent = `<div style="display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-muted)"><i class="fa-solid fa-folder-open" style="font-size:36px"></i><span style="font-size:13px">Google Drive Folder</span></div>`;
-    }
-    return `<div class="video-card reveal">
-      <div class="video-thumb" onclick="${v.ytId ? `openVideoModal('${v.url}','${v.title.replace(/'/g, "\\'")}')` : `window.open('${v.url}','_blank')`}" style="cursor:pointer">
-        ${thumbContent}
-        <div class="video-play"><i class="fa-solid fa-play" style="margin-left:2px"></i></div>
+  const vg = document.getElementById('videoGrid');
+  if(!vg) return;
+  vg.innerHTML = VIDEOS.map(v =>
+    `<div class="video-card reveal">
+      <div class="video-thumb" onclick="openVideoModal('${v.url}','${v.title}')" style="cursor:pointer">
+        <img src="https://img.youtube.com/vi/${v.ytId}/hqdefault.jpg" alt="${v.title}" loading="lazy">
+        <div class="video-play"><i class="fa-solid fa-play"></i></div>
       </div>
-      <div class="video-info">
-        <h4>${v.title}</h4>
-        <p>${v.desc}</p>
-      </div>
-    </div>`;
-  }).join('');
+      <div class="video-info"><h4>${v.title}</h4><p>${v.desc}</p></div>
+    </div>`
+  ).join('');
 }
 
-/* Dokumen */
 function renderDokumen() {
-  document.getElementById('dokumenList').innerHTML = DOKUMEN.map(d =>
+  const dl = document.getElementById('dokumenList');
+  if(!dl) return;
+  dl.innerHTML = DOKUMEN.map(d =>
     `<a href="${d.url}" target="_blank" rel="noopener" class="doc-card reveal">
       <div class="doc-icon"><i class="${d.icon}"></i></div>
       <div class="doc-info"><h4>${d.title}</h4><p>${d.desc}</p></div>
@@ -1693,10 +1261,6 @@ function renderDokumen() {
   ).join('');
 }
 
-
-/* ================================================================
-   NAVIGATION / ROUTING
-   ================================================================ */
 function navigateTo(pageId) {
   currentPage = pageId;
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
@@ -1705,7 +1269,6 @@ function navigateTo(pageId) {
   renderSidebar();
   closeSidebar();
   window.scrollTo({top: 0, behavior: 'smooth'});
-  /* Re-observe reveals */
   setTimeout(() => {
     observeReveals();
     if (pageId === 'penilaian') animateCountUps(document.getElementById('page-penilaian'));
@@ -1713,134 +1276,101 @@ function navigateTo(pageId) {
   }, 100);
 }
 
-
-/* ================================================================
-   SEARCH
-   ================================================================ */
 const searchInput = document.getElementById('searchInput');
 const searchResultsEl = document.getElementById('searchResults');
-
-searchInput.addEventListener('input', function() {
-  const q = this.value.trim().toLowerCase();
-  if (q.length < 2) { searchResultsEl.classList.remove('show'); return; }
-  const results = SEARCH_INDEX.filter(item =>
-    item.title.toLowerCase().includes(q) || item.keywords.toLowerCase().includes(q)
-  );
-  if (results.length === 0) {
-    searchResultsEl.innerHTML = '<div class="search-result-item"><span style="color:var(--text-muted)">Tidak ditemukan</span></div>';
-  } else {
-    searchResultsEl.innerHTML = results.slice(0, 8).map(r =>
-      `<div class="search-result-item" onclick="doSearch('${r.page}','${r.title.replace(/'/g, "\\'")}')">
-        <div class="sr-cat">${r.cat}</div>
-        <div class="sr-title">${r.title}</div>
-      </div>`
-    ).join('');
-  }
-  searchResultsEl.classList.add('show');
-});
-
-searchInput.addEventListener('focus', () => { if (searchInput.value.trim().length >= 2) searchResultsEl.classList.add('show'); });
-document.addEventListener('click', e => { if (!e.target.closest('.topbar-search')) searchResultsEl.classList.remove('show'); });
+if(searchInput && searchResultsEl) {
+  searchInput.addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    if (q.length < 2) { searchResultsEl.classList.remove('show'); return; }
+    const results = SEARCH_INDEX.filter(item => item.title.toLowerCase().includes(q) || item.keywords.toLowerCase().includes(q));
+    if (results.length === 0) {
+      searchResultsEl.innerHTML = '<div class="search-result-item"><span style="color:var(--text-muted)">Tidak ditemukan</span></div>';
+    } else {
+      searchResultsEl.innerHTML = results.slice(0, 8).map(r =>
+        `<div class="search-result-item" onclick="doSearch('${r.page}','${r.title}')">
+          <div class="sr-cat">${r.cat}</div>
+          <div class="sr-title">${r.title}</div>
+        </div>`
+      ).join('');
+    }
+    searchResultsEl.classList.add('show');
+  });
+}
 
 function doSearch(page, title) {
-  searchResultsEl.classList.remove('show');
-  searchInput.value = '';
+  if(searchResultsEl) searchResultsEl.classList.remove('show');
+  if(searchInput) searchInput.value = '';
   navigateTo(page);
 }
 
-
-/* ================================================================
-   MODAL
-   ================================================================ */
 function openModal(title, bodyHTML) {
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalBody').innerHTML = bodyHTML;
   document.getElementById('modal-overlay').classList.add('show');
   document.body.style.overflow = 'hidden';
 }
+
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('show');
   document.body.style.overflow = '';
 }
-document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 function openLatihanModal(index) {
   const l = LATIHAN[index];
-  const html = `
-    <p><strong>Material:</strong> ${l.material}</p>
-    <p>${l.desc}</p>
-    <h4 style="font-size:15px;margin:16px 0 8px">Spesifikasi:</h4>
-    <ul>${l.specs.map(s => `<li>${s}</li>`).join('')}</ul>
-    <h4 style="font-size:15px;margin:16px 0 8px">Langkah Pengerjaan:</h4>
-    <ol style="padding-left:20px">${l.steps.map(s => `<li style="margin-bottom:6px">${s}</li>`).join('')}</ol>
-    <div style="margin-top:20px">
-      <a href="${l.link}" target="_blank" rel="noopener" class="btn btn-primary"><i class="fa-solid fa-folder-open"></i> Buka Dokumen Latihan ${l.num} <span class="ext-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></span></a>
-    </div>
-  `;
+  const html = `<p><strong>Material:</strong> ${l.material}</p><p>${l.desc}</p>`;
   openModal(l.title, html);
 }
 
 function openVideoModal(url, title) {
-  const ytId = extractYTId(url);
-  const html = ytId
-    ? `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius-sm);margin-bottom:16px">
-        <iframe src="https://www.youtube.com/embed/${ytId}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>
-       </div>
-       <p>${title}</p>`
-    : `<p>Video tidak dapat di-embed. <a href="${url}" target="_blank" rel="noopener">Buka di tab baru</a></p>`;
+  const html = `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin-bottom:16px"><iframe src="https://www.youtube.com/embed/${extractYTId(url)}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen></iframe></div><p>${title}</p>`;
   openModal(title, html);
 }
 
-function extractYTId(url) {
+const extractYTId = function(url) {
   const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   return m ? m[1] : null;
+};
+
+const themeToggleBtn = document.getElementById('themeToggle');
+if(themeToggleBtn) {
+  themeToggleBtn.addEventListener('click', () => {
+    isDark = !isDark;
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    themeToggleBtn.innerHTML = isDark ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
+    showToast(isDark ? 'Mode gelap diaktifkan' : 'Mode terang diaktifkan');
+  });
 }
 
-
-/* ================================================================
-   THEME TOGGLE
-   ================================================================ */
-document.getElementById('themeToggle').addEventListener('click', () => {
-  isDark = !isDark;
-  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-  document.getElementById('themeToggle').innerHTML = isDark
-    ? '<i class="fa-solid fa-moon"></i>'
-    : '<i class="fa-solid fa-sun"></i>';
-  showToast(isDark ? 'Mode gelap diaktifkan' : 'Mode terang diaktifkan');
-});
-
-
-/* ================================================================
-   SIDEBAR MOBILE
-   ================================================================ */
 function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('show');
+  const sb = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  if(sb) sb.classList.remove('open');
+  if(overlay) overlay.classList.remove('show');
 }
-document.getElementById('hamburgerBtn').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebarOverlay').classList.toggle('show');
-});
-document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
 
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+if(hamburgerBtn) {
+  hamburgerBtn.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('show');
+  });
+}
 
-/* ================================================================
-   TOAST
-   ================================================================ */
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+if(sidebarOverlay) {
+  sidebarOverlay.addEventListener('click', closeSidebar);
+}
+
 function showToast(msg) {
   const c = document.getElementById('toast-container');
+  if(!c) return;
   const t = document.createElement('div');
   t.className = 'toast';
   t.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
   c.appendChild(t);
-  setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(40px)'; setTimeout(() => t.remove(), 300); }, 2500);
+  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2500);
 }
 
-
-/* ================================================================
-   COUNT-UP ANIMATION
-   ================================================================ */
 function animateCountUps(container) {
   if (!container) return;
   container.querySelectorAll('[data-count]').forEach(el => {
@@ -1861,10 +1391,6 @@ function animateCountUps(container) {
   });
 }
 
-
-/* ================================================================
-   INTERSECTION OBSERVER — REVEAL ON SCROLL
-   ================================================================ */
 let revealObserver;
 function observeReveals() {
   if (revealObserver) revealObserver.disconnect();
@@ -1883,60 +1409,13 @@ function observeReveals() {
   document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
 }
 
-
-/* ================================================================
-   BACK TO TOP
-   ================================================================ */
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('back-to-top');
+  if(!btn) return;
   if (window.scrollY > 400) btn.classList.add('show');
   else btn.classList.remove('show');
 });
 
-
-/* ================================================================
-   INIT
-   ================================================================ */
-function init() {
-  renderSidebar();
-  renderQuickAccess();
-  renderInstructors();
-  renderTargetBelajar();
-  renderAlatUkur();
-  renderSOP();
-  renderSiklus();
-  renderBasicSkill();
-  renderLatihan();
-  renderVideo();
-  renderDokumen();
-  observeReveals();
-  initAnimation(); // Initialize the filing animation
-  /* Hide loader */
-  setTimeout(() => {
-    document.getElementById('loader').classList.add('hidden');
-    animateCountUps(document.getElementById('page-home'));
-  }, 600);
-  /* Handle hash navigation */
-  const hash = window.location.hash.replace('#', '');
-  if (hash && NAV_ITEMS.some(n => n.id === hash)) {
-    navigateTo(hash);
-  }
-}
-window.addEventListener('hashchange', () => {
-  const hash = window.location.hash.replace('#', '');
-  if (hash && NAV_ITEMS.some(n => n.id === hash)) navigateTo(hash);
-});
-
-/* Override navigateTo to also set hash */
-const _origNavigate = navigateTo;
-navigateTo = function(pageId) {
-  window.location.hash = pageId;
-  _origNavigate(pageId);
-};
-
-/* ================================================================
-   ANIMASI KIKIR (FILING PROCESS)
-   ================================================================ */
 function initAnimation() {
     const canvas = document.getElementById('mainCanvas');
     const container = document.getElementById('anim-container');
@@ -2119,14 +1598,57 @@ function initAnimation() {
     }
     animateAnim();
 
-    playBtn.addEventListener('click', () => {
-        isPlaying = !isPlaying;
-        if (isPlaying) { playBtn.textContent = 'Jeda'; playBtn.classList.add('active'); } 
-        else { playBtn.textContent = 'Mulai'; playBtn.classList.remove('active'); }
-    });
-    speedSlider.addEventListener('input', (e) => { speedMultiplier = parseFloat(e.target.value); });
-    resetBtn.addEventListener('click', () => { materialWear = 0; chips = []; });
+    if(playBtn) {
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            if (isPlaying) { playBtn.textContent = 'Jeda'; playBtn.classList.add('active'); } 
+            else { playBtn.textContent = 'Mulai'; playBtn.classList.remove('active'); }
+        });
+    }
+    if(speedSlider) {
+        speedSlider.addEventListener('input', (e) => { speedMultiplier = parseFloat(e.target.value); });
+    }
+    if(resetBtn) {
+        resetBtn.addEventListener('click', () => { materialWear = 0; chips = []; });
+    }
 }
+
+function init() {
+  renderSidebar();
+  renderQuickAccess();
+  renderInstructors();
+  renderTargetBelajar();
+  renderAlatUkur();
+  renderSOP();
+  renderSiklus();
+  renderLatihan();
+  renderVideo();
+  renderDokumen();
+  observeReveals();
+  initAnimation();
+  
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    if(loader) loader.classList.add('hidden');
+    animateCountUps(document.getElementById('page-home'));
+  }, 600);
+
+  const hash = window.location.hash.replace('#', '');
+  if (hash && NAV_ITEMS.some(n => n.id === hash)) {
+    navigateTo(hash);
+  }
+}
+
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (hash && NAV_ITEMS.some(n => n.id === hash)) navigateTo(hash);
+});
+
+const _origNavigate = navigateTo;
+navigateTo = function(pageId) {
+  window.location.hash = pageId;
+  _origNavigate(pageId);
+};
 
 document.addEventListener('DOMContentLoaded', init);
 </script>
